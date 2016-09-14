@@ -300,9 +300,10 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     public void setCurrCol(int currCol) {
         if (!isColumnInRange(currCol)) {
             LOGGER.warning("trying to set currCol out of range!");
-            currCol = 0;
+            this.currCol = 0;
         }
-        currIndex = clues[currCol].length - 1;
+        this.currCol = currCol;
+        currIndex = 0;
     }
 
     public Iterator<Integer> iterator() {
@@ -311,32 +312,32 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
 
     public boolean hasNext() {
         if (!isColumnInRange(currCol) || !isIndexInRange(currIndex)) return false;
-        while (clues[currCol][currIndex] == 0 && currIndex > 0) {
-            currIndex--;
+        while (clues[currCol][currIndex] == 0 && currIndex < clues[currCol].length - 1) {
+            currIndex++;
         }
-        return currIndex != 0 || clues[currCol][currIndex] != 0;
+        return currIndex != clues[currCol].length - 1 || clues[currCol][currIndex] != 0;
     }
 
     public Integer next() {
-        if (currIndex < 0) {
+        if (currIndex > clues[currCol].length - 1) {
             LOGGER.severe("Iterator called after the end!");
             throw new NoSuchElementException();
         }
         int toReturn = clues[currCol][currIndex];
         if (toReturn == 0) {
             LOGGER.warning("toReturn was 0! This loop is necessary!");
-            while (currIndex >= 0 && clues[currCol][currIndex] == 0) {
-                currIndex--;
+            while (currIndex < clues[currCol].length && clues[currCol][currIndex] == 0) {
+                currIndex++;
             }
-            if (currIndex < 0) {
+            if (currIndex >= clues[currCol].length) {
                 LOGGER.severe("Iterator called after the end!");
                 throw new NoSuchElementException();
             } else {
-                currIndex--;
-                return clues[currCol][currIndex + 1];
+                currIndex++;
+                return clues[currCol][currIndex - 1];
             }
         }
-        currIndex--;
+        currIndex++;
         return toReturn;
     }
 
