@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class CluesTest {
 
-
+    //TODO: Fix the ordering? Is it -> or <- !!! FUCK ME!
     //Test Clues consist of (horizontally):
     // 0   0   0
     // 1   2   3
