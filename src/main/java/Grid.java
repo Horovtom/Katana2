@@ -22,7 +22,7 @@ public class Grid {
     }
 
     public int getClue(ClueType type, int column, int index){
-        return type == ClueType.COLUMN ? columns.getClue(column, index) : rows.getClue(column, index);
+        return type == ClueType.COLUMN ? columns.getClueInwards(column, index) : rows.getClueInwards(column, index);
     }
 
     public int getClueColumn(int column, int index){
@@ -37,10 +37,12 @@ public class Grid {
         return type == ClueType.COLUMN ? columns : rows;
     }
 
+
+    //TODO: IMPLEMENT IT FOR THE IOTYPES
     public void setClue(ClueType type, int column, int index, int value){
         Clues clue = type == ClueType.ROW ? rows: columns;
         //TODO: CHECK?
-        clue.setClue(column, index, value);
+        clue.setClueInwards(column, index, value);
     }
 
     public void setClueColumn(int column, int index, int value){

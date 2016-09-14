@@ -29,12 +29,21 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
     }
 
+
+    public void setClue(IODirection dir, int column, int index, int number){
+        if (dir == IODirection.INWARDS){
+            setClueInwards(column, index, number);
+        } else {
+            setClueOutwards(column, index, number);
+        }
+    }
+
     /**
      * Sets the number on specified position.
      *
      * @param index indexed from board outwards!
      */
-    public void setClueReversed(int column, int index, int number) {
+    public void setClueOutwards(int column, int index, int number) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -100,7 +109,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @param index indexed from border inwards!
      */
-    public void setClue(int column, int index, int number) {
+    public void setClueInwards(int column, int index, int number) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -246,7 +255,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @param clueIndex numbered from the OUTSIDE towards the board! Not counting empty spaces
      */
-    public int getClue(int column, int clueIndex) {
+    public int getClueInwards(int column, int clueIndex) {
 
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
@@ -274,12 +283,16 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         return 0;
     }
 
+    public int getClue(IODirection dir, int column, int clueIndex){
+        return dir == IODirection.INWARDS ? getClueInwards(column, clueIndex) : getClueOutwards(column, clueIndex);
+    }
+
     /**
      * Returns the clue on specified position
      *
      * @param clueIndex numbered from the INSIDE towards the edge! There should be no empty spaces
      */
-    public int getClueReversed(int column, int clueIndex) {
+    public int getClueOutwards(int column, int clueIndex) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return 0;

@@ -82,6 +82,8 @@ public class GridTest {
         assertEquals(1, grid.getClueRow(4, 0));
     }
 
+
+    //TODO: IMPLEMENT IT FOR THE IO TYPES
     @Test
     public void getClues() throws Exception {
         grid = getBasicGrid();
