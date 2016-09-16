@@ -11,6 +11,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     private int currCol = 0;
     private int currIndex = 0;
     private int maxIndex = 0;
+    private IODirection iterDirection = IODirection.INWARDS;
 
     public Clues(int[][] clues) {
         this.clues = clues;
@@ -127,7 +128,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         clues[column][clues[column].length - 1 - index] = number;
     }
 
-    public void setClues(int column, int[] clues) {
+    public void setCluesOutwards(int column, int[] clues) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -136,7 +137,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         this.clues[column] = reverseArray(clues);
     }
 
-    public void setCluesReversed(int column, int[] clues) {
+    public void setCluesInwards(int column, int[] clues) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -242,7 +243,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @return numbered from the board to the edge
      */
-    public int[] getClues(int column) {
+    public int[] getCluesOutwards(int column) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return null;
@@ -317,6 +318,16 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
         this.currCol = currCol;
         currIndex = 0;
+        iterDirection = IODirection.OUTWARDS;
+    }
+
+    /**
+     * Sets the iteration direction to specified value, also sets the currIndex to the according value
+     */
+    public void setIterDirection(IODirection dir){
+        iterDirection = dir;
+        if (dir == IODirection.OUTWARDS) currIndex = 0;
+        else currIndex = clues[currCol].length - 1;
     }
 
     public Iterator<Integer> iterator() {
@@ -325,32 +336,54 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
 
     public boolean hasNext() {
         if (!isColumnInRange(currCol) || !isIndexInRange(currIndex)) return false;
+        if (iterDirection == IODirection.OUTWARDS){
         while (clues[currCol][currIndex] == 0 && currIndex < clues[currCol].length - 1) {
             currIndex++;
         }
         return currIndex != clues[currCol].length - 1 || clues[currCol][currIndex] != 0;
+        } else{
+            while(clues[currCol][currIndex] == 0 && currIndex > 0) {
+                currIndex--;
+            }
+            return currIndex != 0 || clues[currCol][currIndex] != 0;
+        }
     }
 
     public Integer next() {
-        if (currIndex > clues[currCol].length - 1) {
+        if (currIndex > clues[currCol].length - 1 || currIndex <0) {
             LOGGER.severe("Iterator called after the end!");
             throw new NoSuchElementException();
         }
         int toReturn = clues[currCol][currIndex];
         if (toReturn == 0) {
             LOGGER.warning("toReturn was 0! This loop is necessary!");
-            while (currIndex < clues[currCol].length && clues[currCol][currIndex] == 0) {
-                currIndex++;
-            }
-            if (currIndex >= clues[currCol].length) {
-                LOGGER.severe("Iterator called after the end!");
-                throw new NoSuchElementException();
+            if (iterDirection == IODirection.OUTWARDS) {
+                while (currIndex < clues[currCol].length && clues[currCol][currIndex] == 0) {
+                    currIndex++;
+                }
+                if (currIndex >= clues[currCol].length) {
+                    LOGGER.severe("Iterator called after the end!");
+                    throw new NoSuchElementException();
+                } else {
+                    currIndex++;
+                    return clues[currCol][currIndex - 1];
+                }
             } else {
-                currIndex++;
-                return clues[currCol][currIndex - 1];
+                while(currIndex >= 0 && clues[currCol][currIndex] == 0){
+                    currIndex--;
+                }
+                if (currIndex < 0){
+                    LOGGER.severe("Iterator called after the end!");
+                    throw new NoSuchElementException();
+                } else {
+                    currIndex--;
+                    return clues[currCol][currIndex + 1];
+                }
+
             }
         }
-        currIndex++;
+        if (iterDirection == IODirection.OUTWARDS) currIndex++;
+        else currIndex--;
         return toReturn;
     }
 
@@ -358,7 +391,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
 
     }
 
-    public int[] getCluesReversed(int column) {
+    public int[] getCluesInwards(int column) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return null;
