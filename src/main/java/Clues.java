@@ -65,6 +65,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             LOGGER.warning("Trying to resize array to add negative number!");
             return false;
         }
+        return true;
     }
 
     /**
