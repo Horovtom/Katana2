@@ -209,10 +209,16 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         return clues.length;
     }
 
+    /**
+     * Returns the IndexCount of the first column
+     */
     public int getIndexes() {
         return clues[0].length;
     }
 
+    /**
+     * Returns the number of indexes in specified column
+     */
     public int getIndexes(int columnIndex) {
         if (!isColumnInRange(columnIndex)) {
             LOGGER.severe("Column index is out of range!");

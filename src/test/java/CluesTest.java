@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.io.OutputStreamWriter;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -9,15 +11,15 @@ public class CluesTest {
 
     /**
      * Returns a Clues object which looks like this:
-     *
-     *
+     * <p>
+     * <p>
      * 213|
      * 11-|
      * 2-1|
      * --1|
      * ---|
      */
-    private Clues getBasicClues(){
+    private Clues getBasicClues() {
         Clues clues = new Clues(5, 3);
 
         int[] array = new int[3];
@@ -46,7 +48,7 @@ public class CluesTest {
         array[2] = 0;
         clues.setCluesInwards(4, array);
 
-       return clues;
+        return clues;
     }
 
     @Test
@@ -62,7 +64,7 @@ public class CluesTest {
         //***
         //--|
 
-        Clues clues = new Clues(1,2);
+        Clues clues = new Clues(1, 2);
 
         //***
         //1-|
@@ -74,7 +76,7 @@ public class CluesTest {
         //***
         //13|
         clues.setClue(IODirection.OUTWARDS, 0, 0, 3);
-        assertEquals("/Clues.setClue(OUTWARDS) does not set the value/ or /Clues.getClue(OUTWARDS) does not read the value right/", 3, clues.getClue(IODirection.OUTWARDS, 0 ,0));
+        assertEquals("/Clues.setClue(OUTWARDS) does not set the value/ or /Clues.getClue(OUTWARDS) does not read the value right/", 3, clues.getClue(IODirection.OUTWARDS, 0, 0));
 
     }
 
@@ -87,7 +89,7 @@ public class CluesTest {
         Clues clues = new Clues(1, 2);
         //***
         //32|
-        clues.setCluesOutwards(0 , array);
+        clues.setCluesOutwards(0, array);
 
         assertEquals(3, clues.getClue(IODirection.INWARDS, 0, 0));
         assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 1));
@@ -153,25 +155,56 @@ public class CluesTest {
 
     @Test
     public void getColumns() throws Exception {
-        //TODO: COMPLETE
+        Clues clues = new Clues(1, 3);
+        assertEquals(1, clues.getColumns());
+        clues = new Clues(23, 3);
+        assertEquals(23, clues.getColumns());
     }
 
     @Test
     public void getIndexes() throws Exception {
-        //TODO: COMPLETE
-
+        Clues clues = new Clues(1, 3);
+        assertEquals(3, clues.getIndexes());
+        clues = new Clues(2, 5);
+        assertEquals(5, clues.getIndexes());
+        int[] array = new int[7];
+        clues.setCluesInwards(0, array);
+        assertEquals(7, clues.getIndexes());
     }
 
     @Test
     public void getIndexes1() throws Exception {
-        //TODO: COMPLETE
+        Clues clues = new Clues(5, 10);
+        for (int i = 1; i < 5; i++) {
+            assertEquals(10, clues.getIndexes(i));
+        }
 
+        int[] array = new int[12];
+        clues.setCluesInwards(2, array);
+        assertEquals(12, clues.getIndexes(2));
+        array = new int[21];
+        assertEquals(10, clues.getIndexes(0));
+        clues.setCluesInwards(4, array);
+        assertEquals(21, clues.getIndexes(4));
     }
 
     @Test
     public void clearClues() throws Exception {
-        //TODO: COMPLETE
+        Clues clues = new Clues(2, 2);
+        clues.setClue(IODirection.INWARDS, 0, 0, 5);
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 4);
+        assertEquals(5, clues.getClue(IODirection.INWARDS, 0, 0));
+        clues.clearClues();
+        clues.setCurrCol(0);
+        for (int i :
+                clues) {
+            assertEquals(0, i);
+        }
 
+        clues.setClue(IODirection.OUTWARDS, 1, 1, 2);
+        assertEquals(2, clues.getClue(IODirection.INWARDS, 1, 0));
+        clues.clearClues();
+        assertEquals(0, clues.getClue(IODirection.INWARDS, 1, 0));
     }
 
     @Test
