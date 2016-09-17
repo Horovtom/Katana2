@@ -7,21 +7,21 @@ import java.util.logging.Logger;
  * Can be iterated over, stores values in 2-d array. First index is "Column" (defines the row of Katana), second index is "Index" (defines the individual numbers in specified Column)
  * Clues are stored in OUTWARDS direction by default.
  * <p>
- * Example:
+ * Example:    <br>
  * 3x3 Katana grid with 2 clues on each row:
  * <p>
- * |---
- * |111
- * ------
- * 11|■□■
- * --|□□□
- * -1|□■□
+ * __|___    <br>
+ * __|111   <br>
+ * ______   <br>
+ * 11|■□■   <br>
+ * __|□□□   <br>
+ * _1|□■□   <br>
  * <p>
  * For the rows Clues it is indexed as follows:
  * <p>
- * [0,1] [0,0] |
- * [1,1] [1,0] |
- * [2,1] [2,0] |
+ * [0,1] [0,0] |   <br>
+ * [1,1] [1,0] |   <br>
+ * [2,1] [2,0] |   <br>
  */
 public class Clues implements Iterable<Integer>, Iterator<Integer> {
     private static final Logger LOGGER = Logger.getLogger(Clues.class.getName());
