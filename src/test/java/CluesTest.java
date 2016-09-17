@@ -213,6 +213,30 @@ public class CluesTest {
     }
 
     @Test
+    public void getCluesInwards() throws Exception {
+        Clues clues = new Clues(2, 3);
+        int[] array = new int[3];
+        array[0] = 2;
+        array[2] = 3;
+
+        //****
+        //2-3|
+        //3-2|
+        clues.setCluesInwards(0, array);
+        clues.setCluesOutwards(1, array);
+
+        int[] got = clues.getCluesInwards(0);
+        int[] got2 = clues.getCluesInwards(1);
+
+        assertFalse("Wrong direction of setCluesInwards() or setCluesOutwards()", got[0] == got2[0]);
+        assertEquals(2, got2[2]);
+        assertEquals(3, got2.length);
+        assertEquals(0, got2[1]);
+        assertEquals(3, got2[0]);
+        assertEquals(3, got[2]);
+    }
+
+    @Test
     public void getCluesOutwards() throws Exception {
         Clues clues = new Clues(2, 3);
         int[] array = new int[3];
@@ -351,17 +375,7 @@ public class CluesTest {
         }
     }
 
-    @Test
-    public void setIterDirection() throws Exception {
-        //TODO: COMPLETE
 
-    }
-
-    @Test
-    public void getCluesInwards() throws Exception {
-        //TODO: COMPLETE
-
-    }
 
 //    //Test Clues consist of (horizontally):
 //    // 0   0   0
