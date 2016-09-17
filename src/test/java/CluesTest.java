@@ -30,27 +30,27 @@ public class CluesTest {
         array[0] = 2;
         array[1] = 1;
         array[2] = 3;
-        clues.setCluesInwards(0, array);
+        clues.setClues(IODirection.INWARDS,0, array);
 
         array[0] = 1;
         array[1] = 1;
         array[2] = 0;
-        clues.setCluesInwards(1, array);
+        clues.setClues(IODirection.INWARDS,1, array);
 
         array[0] = 2;
         array[1] = 0;
         array[2] = 1;
-        clues.setCluesInwards(2, array);
+        clues.setClues(IODirection.INWARDS,2, array);
 
         array[0] = 0;
         array[1] = 0;
         array[2] = 1;
-        clues.setCluesInwards(3, array);
+        clues.setClues(IODirection.INWARDS,3, array);
 
         array[0] = 0;
         array[1] = 0;
         array[2] = 0;
-        clues.setCluesInwards(4, array);
+        clues.setClues(IODirection.INWARDS,4, array);
 
         return clues;
     }
@@ -93,7 +93,7 @@ public class CluesTest {
         Clues clues = new Clues(1, 2);
         //***
         //32|
-        clues.setCluesOutwards(0, array);
+        clues.setClues(IODirection.OUTWARDS, 0, array);
 
         assertEquals(3, clues.getClue(IODirection.INWARDS, 0, 0));
         assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 1));
@@ -109,7 +109,7 @@ public class CluesTest {
         Clues clues = new Clues(1, 2);
         //***
         //23|
-        clues.setCluesInwards(0, array);
+        clues.setClues(IODirection.INWARDS,0, array);
 
         assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 0));
         assertEquals(3, clues.getClue(IODirection.INWARDS, 0, 1));
@@ -149,10 +149,10 @@ public class CluesTest {
 
         Clues clues = new Clues(2, 2);
         assertEquals("MaxIndex is not set when Clues is initialized", 2, clues.getMaxIndex());
-        clues.setCluesInwards(1, array);
+        clues.setClues(IODirection.INWARDS,1, array);
         assertEquals("MaxIndex is not refreshing when appending new array!", 3, clues.getMaxIndex());
         array = new int[5];
-        clues.setCluesInwards(0, array);
+        clues.setClues(IODirection.INWARDS,0, array);
         assertEquals("MaxIndex is not refreshing when appending new array!", 5, clues.getMaxIndex());
 
     }
@@ -172,7 +172,7 @@ public class CluesTest {
         clues = new Clues(2, 5);
         assertEquals(5, clues.getIndexes());
         int[] array = new int[7];
-        clues.setCluesInwards(0, array);
+        clues.setClues(IODirection.INWARDS,0, array);
         assertEquals(7, clues.getIndexes());
     }
 
@@ -184,11 +184,11 @@ public class CluesTest {
         }
 
         int[] array = new int[12];
-        clues.setCluesInwards(2, array);
+        clues.setClues(IODirection.INWARDS,2, array);
         assertEquals(12, clues.getIndexes(2));
         array = new int[21];
         assertEquals(10, clues.getIndexes(0));
-        clues.setCluesInwards(4, array);
+        clues.setClues(IODirection.INWARDS,4, array);
         assertEquals(21, clues.getIndexes(4));
     }
 
@@ -221,11 +221,11 @@ public class CluesTest {
         //****
         //2-3|
         //3-2|
-        clues.setCluesInwards(0, array);
-        clues.setCluesOutwards(1, array);
+        clues.setClues(IODirection.INWARDS,0, array);
+        clues.setClues(IODirection.OUTWARDS,1, array);
 
-        int[] got = clues.getCluesInwards(0);
-        int[] got2 = clues.getCluesInwards(1);
+        int[] got = clues.getClues(IODirection.INWARDS, 0);
+        int[] got2 = clues.getClues(IODirection.INWARDS,1);
 
         assertFalse("Wrong direction of setCluesInwards() or setCluesOutwards()", got[0] == got2[0]);
         assertEquals(2, got2[2]);
@@ -245,15 +245,15 @@ public class CluesTest {
         //****
         //2-3|
         //---|
-        clues.setCluesInwards(0, array);
+        clues.setClues(IODirection.INWARDS, 0, array);
 
         //****
         //2-3|
         //3-2|
-        clues.setCluesOutwards(1, array);
+        clues.setClues(IODirection.OUTWARDS,1, array);
 
-        int[] got = clues.getCluesOutwards(0);
-        int[] got2 = clues.getCluesOutwards(1);
+        int[] got = clues.getClues(IODirection.OUTWARDS ,0);
+        int[] got2 = clues.getClues(IODirection.OUTWARDS ,1);
 
         assertFalse("Wrong direction of setCluesInwards() or setCluesOutwards()", got[0] == got2[0]);
 
@@ -269,25 +269,25 @@ public class CluesTest {
     public void getClueInwards() throws Exception {
         Clues clues = getBasicClues();
 
-        assertTrue("Clues.getClueInwards() is wrong direction!", clues.getClueInwards(0, 0) == 2);
-        assertEquals(2, clues.getClueInwards(0, 0));
-        assertEquals(1, clues.getClueInwards(0, 1));
-        assertEquals(3, clues.getClueInwards(0, 2));
+        assertTrue("Clues.getClueInwards() is wrong direction!", clues.getClue(IODirection.INWARDS,0, 0) == 2);
+        assertEquals(2, clues.getClue(IODirection.INWARDS,0, 0));
+        assertEquals(1, clues.getClue(IODirection.INWARDS,0, 1));
+        assertEquals(3, clues.getClue(IODirection.INWARDS,0, 2));
 
-        assertEquals(1, clues.getClueInwards(1, 0));
-        assertEquals(1, clues.getClueInwards(1, 1));
-        assertEquals(0, clues.getClueInwards(1, 2));
+        assertEquals(1, clues.getClue(IODirection.INWARDS,1, 0));
+        assertEquals(1, clues.getClue(IODirection.INWARDS,1, 1));
+        assertEquals(0, clues.getClue(IODirection.INWARDS,1, 2));
 
-        assertEquals("Skipping empty spaces is not working! ", 1, clues.getClueInwards(3, 0));
+        assertEquals("Skipping empty spaces is not working! ", 1, clues.getClue(IODirection.INWARDS,3, 0));
 
-        assertEquals("Skipping empty spaces is not working!", 1, clues.getClueInwards(2, 1));
-        assertEquals("Skipping empty spaces is showing shifted values at their original location", 0, clues.getClueInwards(2, 2));
+        assertEquals("Skipping empty spaces is not working!", 1, clues.getClue(IODirection.INWARDS,2, 1));
+        assertEquals("Skipping empty spaces is showing shifted values at their original location", 0, clues.getClue(IODirection.INWARDS,2, 2));
 
         LOGGER.info("****Four Severe logs should be logged here:");
-        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueInwards(5, 0));
-        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueInwards(-1, 0));
-        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueInwards(0, 10));
-        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueInwards(0, -1));
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClue(IODirection.INWARDS,5, 0));
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClue(IODirection.INWARDS,-1, 0));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClue(IODirection.INWARDS,0, 10));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClue(IODirection.INWARDS,0, -1));
 
     }
 
@@ -295,20 +295,20 @@ public class CluesTest {
     public void getClueOutwards() throws Exception {
         Clues clues = getBasicClues();
 
-        assertTrue("Clues.getClueOutwards() is wrong direction!", clues.getClueOutwards(0, 0) == 3);
-        assertEquals(3, clues.getClueOutwards(0, 0));
-        assertEquals(2, clues.getClueOutwards(0, 2));
+        assertTrue("Clues.getClueOutwards() is wrong direction!", clues.getClue(IODirection.OUTWARDS,0, 0) == 3);
+        assertEquals(3, clues.getClue(IODirection.OUTWARDS,0, 0));
+        assertEquals(2, clues.getClue(IODirection.OUTWARDS,0, 2));
 
-        assertEquals(1, clues.getClueOutwards(1, 1));
-        assertEquals("Skipping empty spaces is not working", 1, clues.getClueOutwards(1, 0));
+        assertEquals(1, clues.getClue(IODirection.OUTWARDS,1, 1));
+        assertEquals("Skipping empty spaces is not working", 1, clues.getClue(IODirection.OUTWARDS,1, 0));
 
-        assertEquals("Skipping empty spaces is showing shifted clues at their original location!", 0, clues.getClueOutwards(1, 2));
+        assertEquals("Skipping empty spaces is showing shifted clues at their original location!", 0, clues.getClue(IODirection.OUTWARDS,1, 2));
 
         LOGGER.info("****Four Severe logs should be logged here:");
-        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueOutwards(5, 0));
-        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueOutwards(-1, 0));
-        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueOutwards(0, 10));
-        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueOutwards(0, -1));
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClue(IODirection.OUTWARDS,5, 0));
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClue(IODirection.OUTWARDS,-1, 0));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClue(IODirection.OUTWARDS,0, 10));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClue(IODirection.OUTWARDS,0, -1));
     }
 
     @Test
@@ -323,14 +323,14 @@ public class CluesTest {
         Clues clues = getBasicClues();
         clues.setCurrCol(0);
         assertEquals(0, clues.getCurrCol());
-        checkIterAgainstArray(clues, clues.getCluesInwards(0));
+        checkIterAgainstArray(clues, clues.getClues(IODirection.INWARDS,0));
 
         clues.setCurrCol(1);
-        checkIterAgainstArray(clues, clues.getCluesInwards(1));
+        checkIterAgainstArray(clues, clues.getClues(IODirection.INWARDS,1));
 
         clues.setCurrCol(0);
         clues.setIterDirection(IODirection.OUTWARDS);
-        checkIterAgainstArray(clues, clues.getCluesOutwards(0));
+        checkIterAgainstArray(clues, clues.getClues(IODirection.OUTWARDS,0));
 
         clues.setCurrCol(1);
         clues.setIterDirection(IODirection.OUTWARDS);

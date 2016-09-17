@@ -21,9 +21,21 @@ public class Grid {
         rows = new Clues(height, rowClues);
     }
 
+    /**
+     * Returns the clue at specified position
+     * INWARDS
+     */
     public int getClue(ClueType type, int column, int index){
-        return type == ClueType.COLUMN ? columns.getClueInwards(column, index) : rows.getClueInwards(column, index);
+        return type == ClueType.COLUMN ? columns.getClue(IODirection.INWARDS,column, index) : rows.getClue(IODirection.INWARDS,column, index);
     }
+
+    /**
+     * Returns the clue at specified position
+     */
+    public int getClue(ClueType type, IODirection dir, int column, int index){
+        return type == ClueType.COLUMN ? columns.getClue(dir, column, index) : rows.getClue(dir, column, index);
+    }
+
 
     public int getClueColumn(int column, int index){
         return getClue(ClueType.COLUMN, column, index);
@@ -42,7 +54,7 @@ public class Grid {
     public void setClue(ClueType type, int column, int index, int value){
         Clues clue = type == ClueType.ROW ? rows: columns;
         //TODO: CHECK?
-        clue.setClueInwards(column, index, value);
+        clue.setClue(IODirection.INWARDS, column, index, value);
     }
 
     public void setClueColumn(int column, int index, int value){

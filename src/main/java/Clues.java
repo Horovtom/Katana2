@@ -49,6 +49,17 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
     }
 
+    public void append(IODirection dir, int column, int number){
+
+    }
+
+    private void appendInwards(int column, int number){
+
+    }
+
+    private void appendOutwards(int column, int number){
+
+    }
 
     public void setClue(IODirection dir, int column, int index, int number) {
         if (dir == IODirection.INWARDS) {
@@ -63,7 +74,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @param index indexed from board outwards!
      */
-    public void setClueOutwards(int column, int index, int number) {
+    private void setClueOutwards(int column, int index, int number) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -129,7 +140,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @param index indexed from border inwards!
      */
-    public void setClueInwards(int column, int index, int number) {
+    private void setClueInwards(int column, int index, int number) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -147,7 +158,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         clues[column][clues[column].length - 1 - index] = number;
     }
 
-    public void setCluesOutwards(int column, int[] clues) {
+    private void setCluesOutwards(int column, int[] clues) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -157,7 +168,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         maxIndex = Math.max(clues.length, maxIndex);
     }
 
-    public void setCluesInwards(int column, int[] clues) {
+    private void setCluesInwards(int column, int[] clues) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return;
@@ -272,7 +283,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @return numbered from the board to the edge
      */
-    public int[] getCluesOutwards(int column) {
+    private int[] getCluesOutwards(int column) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return null;
@@ -283,7 +294,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     /**
      * Returns the clue on specified position, INCLUDING empty spaces!
      */
-    public int getTrueClueInwards(int column, int clueIndex) {
+    private int getTrueClueInwards(int column, int clueIndex) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return 0;
@@ -301,7 +312,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     /**
      * Returns the clue on specified position, INCLUDING empty spaces!
      */
-    public int getTrueClueOutwards(int column, int clueIndex) {
+    private int getTrueClueOutwards(int column, int clueIndex) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return 0;
@@ -328,7 +339,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @param clueIndex numbered from the OUTSIDE towards the board! Not counting empty spaces
      */
-    public int getClueInwards(int column, int clueIndex) {
+    private int getClueInwards(int column, int clueIndex) {
 
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
@@ -369,7 +380,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      *
      * @param clueIndex numbered from the INSIDE towards the edge! Skipping empty spaces
      */
-    public int getClueOutwards(int column, int clueIndex) {
+    private int getClueOutwards(int column, int clueIndex) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return 0;
@@ -459,7 +470,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
 
     }
 
-    public int[] getCluesInwards(int column) {
+    private int[] getCluesInwards(int column) {
         if (!isColumnInRange(column)) {
             LOGGER.severe("Column out of range!");
             return null;
@@ -469,5 +480,23 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
 
     public int getCurrCol() {
         return currCol;
+    }
+
+    /**
+     * Sets the array of Clues in specified col, direction
+     */
+    public void setClues(IODirection dir, int column, int[] array) {
+        if (dir == IODirection.INWARDS) {
+            setCluesInwards(column, array);
+        } else {
+            setCluesOutwards(column, array);
+        }
+    }
+
+    /**
+     * Returns the array of Clues in specified col, direction
+     */
+    public int[] getClues(IODirection dir, int column) {
+        return dir == IODirection.INWARDS ? getCluesInwards(column) : getCluesOutwards(column);
     }
 }
