@@ -1,15 +1,18 @@
 import org.junit.Test;
 
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Hermes235 on 9.9.2016.
  */
 public class CluesTest {
-
+    private static final Logger LOGGER = Logger.getLogger(CluesTest.class.getName());
     /**
      * Returns a Clues object which looks like this:
      * <p>
@@ -238,24 +241,57 @@ public class CluesTest {
 
     }
 
-
-
     @Test
     public void getClueInwards() throws Exception {
-        //TODO: COMPLETE
+        Clues clues = getBasicClues();
 
-    }
+        assertTrue("Clues.getClueInwards() is wrong direction!", clues.getClueInwards(0, 0) == 2);
+        assertEquals(2, clues.getClueInwards(0, 0));
+        assertEquals(1, clues.getClueInwards(0, 1));
+        assertEquals(3, clues.getClueInwards(0, 2));
 
-    @Test
-    public void getClue() throws Exception {
-        //TODO: COMPLETE
+        assertEquals(1, clues.getClueInwards(1, 0));
+        assertEquals(1, clues.getClueInwards(1, 1));
+        assertEquals(0, clues.getClueInwards(1, 2));
+
+        assertEquals("Skipping empty spaces is not working! ",1, clues.getClueInwards(3, 0));
+
+        assertEquals("Skipping empty spaces is not working!", 1, clues.getClueInwards(2, 1));
+        assertEquals("Skipping empty spaces is showing shifted values at their original location", 0, clues.getClueInwards(2, 2));
+
+        LOGGER.info("****Four Severe logs should be logged here:");
+        assertEquals("Errors not handled well (column out of range)",0, clues.getClueInwards(5, 0));
+        assertEquals("Errors not handled well (column out of range)",0, clues.getClueInwards(-1, 0));
+        assertEquals("Errors not handled well (index out of range)",0, clues.getClueInwards(0, 10));
+        assertEquals("Errors not handled well (index out of range)",0, clues.getClueInwards(0, -1));
 
     }
 
     @Test
     public void getClueOutwards() throws Exception {
-        //TODO: COMPLETE
+        Clues clues = getBasicClues();
 
+        assertTrue("Clues.getClueOutwards() is wrong direction!", clues.getClueOutwards(0, 0) == 3);
+        assertEquals(3, clues.getClueOutwards(0, 0));
+        assertEquals(2, clues.getClueOutwards(0, 2));
+
+        assertEquals(1, clues.getClueOutwards(1, 1));
+        assertEquals("Skipping empty spaces is not working",1, clues.getClueOutwards( 1, 0));
+
+        assertEquals("Skipping empty spaces is showing shifted clues at their original location!", 0, clues.getClueOutwards(1, 2));
+
+        LOGGER.info("****Four Severe logs should be logged here:");
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueOutwards(5, 0));
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueOutwards(-1, 0));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueOutwards(0, 10));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueOutwards(0, -1));
+    }
+
+    @Test
+    public void getClue() throws Exception {
+        Clues clues = getBasicClues();
+        assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals(3, clues.getClue(IODirection.OUTWARDS, 0, 0));
     }
 
     @Test

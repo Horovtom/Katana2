@@ -305,7 +305,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
 
 
     /**
-     * Returns the clue on specified position
+     * Returns the clue on specified position, SKIPPING empty spaces
      *
      * @param clueIndex numbered from the OUTSIDE towards the board! Not counting empty spaces
      */
@@ -361,7 +361,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
 
         int index = 0;
-        while(clueIndex > 0){
+        while(clueIndex > 0 || clues[column][index] == 0){
             if (clues[column][index] != 0){
                 clueIndex--;
             }
