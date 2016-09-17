@@ -284,14 +284,17 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         return 0;
     }
 
+    /**
+     * Returns the clue at specified position. Skipping empty spaces!
+     */
     public int getClue(IODirection dir, int column, int clueIndex){
         return dir == IODirection.INWARDS ? getClueInwards(column, clueIndex) : getClueOutwards(column, clueIndex);
     }
 
     /**
      * Returns the clue on specified position
-     *
-     * @param clueIndex numbered from the INSIDE towards the edge! There should be no empty spaces
+     *Skipping empty spaces
+     * @param clueIndex numbered from the INSIDE towards the edge! Skipping empty spaces
      */
     public int getClueOutwards(int column, int clueIndex) {
         if (!isColumnInRange(column)) {
@@ -304,7 +307,18 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             return 0;
         }
 
-        return clues[column][clueIndex];
+        int index = 0;
+        while(clueIndex > 0){
+            if (clues[column][index] != 0){
+                clueIndex--;
+            }
+            index++;
+            if (!isIndexInRange(column, index)){
+                return 0;
+            }
+        }
+
+        return clues[column][index];
     }
 
 

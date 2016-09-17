@@ -58,21 +58,40 @@ public class CluesTest {
 
     @Test
     public void setClue() throws Exception {
+        //Sets clues to be:
+        //***
+        //--|
 
-    }
+        Clues clues = new Clues(1,2);
 
-    @Test
-    public void setClueOutwards() throws Exception {
+        //***
+        //1-|
+        clues.setClue(IODirection.INWARDS, 0, 0, 1);
+        assertEquals("/Clues.setClue(INWARDS) does not set the value/ or /Clues.getClue(INWARDS) does not read the value right/", 1, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals("Clues.setClue(INWARDS) did write to cell it should not have written to", 0, clues.getClue(IODirection.INWARDS, 0, 1));
+        assertEquals("Clues.getClue(OUTWARDS) does not skip empty spaces", 0, clues.getClue(IODirection.OUTWARDS, 0, 1));
 
-    }
-
-    @Test
-    public void setClueInwards() throws Exception {
+        //***
+        //13|
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 3);
+        assertEquals("/Clues.setClue(OUTWARDS) does not set the value/ or /Clues.getClue(OUTWARDS) does not read the value right/", 3, clues.getClue(IODirection.OUTWARDS, 0 ,0));
 
     }
 
     @Test
     public void setCluesOutwards() throws Exception {
+        int[] array = new int[2];
+        array[0] = 2;
+        array[1] = 3;
+
+        Clues clues = new Clues(1, 2);
+        //***
+        //32|
+        clues.setCluesOutwards(0 , array);
+
+        assertEquals(3, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 1));
+        assertEquals(2, clues.getClue(IODirection.OUTWARDS, 0, 0));
 
     }
 
