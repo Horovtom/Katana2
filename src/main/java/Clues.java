@@ -252,6 +252,49 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     }
 
     /**
+     * Returns the clue on specified position, INCLUDING empty spaces!
+     */
+    public int getTrueClueInwards(int column, int clueIndex){
+        if (!isColumnInRange(column)){
+            LOGGER.severe("Column index is out of range!");
+            return 0;
+        }
+
+        if (!isIndexInRange(column, clueIndex)) {
+            LOGGER.severe("clueIndex is out of range!");
+            return 0;
+        }
+
+
+        return clues[column][clues[column].length - 1 - clueIndex];
+    }
+
+    /**
+     * Returns the clue on specified position, INCLUDING empty spaces!
+     */
+    public int getTrueClueOutwards(int column, int clueIndex){
+        if (!isColumnInRange(column)){
+            LOGGER.severe("Column index is out of range!");
+            return 0;
+        }
+
+        if (!isIndexInRange(column, clueIndex)) {
+            LOGGER.severe("clueIndex is out of range!");
+            return 0;
+        }
+
+        return clues[column][clueIndex];
+    }
+
+    /**
+     * Returns the clue on specified position in specified direction. INCLUDING empty spaces!
+     */
+    public int getTrueClue(IODirection dir, int column, int clueIndex){
+        return dir == IODirection.INWARDS ? getTrueClueInwards(column, clueIndex) : getTrueClueOutwards(column, clueIndex);
+    }
+
+
+    /**
      * Returns the clue on specified position
      *
      * @param clueIndex numbered from the OUTSIDE towards the board! Not counting empty spaces

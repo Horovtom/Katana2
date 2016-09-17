@@ -112,6 +112,28 @@ public class CluesTest {
 
     @Test
     public void align() throws Exception {
+        /*
+        //****
+        * 213|
+        * 11-|
+        * 2-1|
+        * --1|
+        * ---|
+        */
+
+        Clues clues = getBasicClues();
+        clues.align();
+
+        assertEquals("Clues.align() did shift even the *** case!", 2, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals("Clues.align() did shift even the *** case!", 1, clues.getClue(IODirection.INWARDS, 0, 1));
+        assertEquals("Clues.align() did shift even the *** case!", 3, clues.getClue(IODirection.INWARDS, 0, 2));
+
+        assertEquals("Clues.align() did not shift the **- case", 1, clues.getTrueClue(IODirection.OUTWARDS, 1, 0));
+        assertEquals("Clues.align() did not delete the shifted value of **- case", 0, clues.getTrueClue(IODirection.INWARDS, 1, 0));
+
+        assertEquals("Clues.align() did not shift the *-* case", 2, clues.getTrueClue(IODirection.INWARDS, 2, 1));
+        assertEquals("Clues.align() shifted the 1 in 2-1 case", 1, clues.getTrueClue(IODirection.OUTWARDS, 2, 0));
+        assertEquals("Clues.align() did not delete the 2 in 2-1 case", 0, clues.getTrueClue(IODirection.INWARDS, 2, 0));
 
     }
 
