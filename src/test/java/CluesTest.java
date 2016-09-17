@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class CluesTest {
     private static final Logger LOGGER = Logger.getLogger(CluesTest.class.getName());
+
     /**
      * Returns a Clues object which looks like this:
      * <p>
@@ -254,16 +255,16 @@ public class CluesTest {
         assertEquals(1, clues.getClueInwards(1, 1));
         assertEquals(0, clues.getClueInwards(1, 2));
 
-        assertEquals("Skipping empty spaces is not working! ",1, clues.getClueInwards(3, 0));
+        assertEquals("Skipping empty spaces is not working! ", 1, clues.getClueInwards(3, 0));
 
         assertEquals("Skipping empty spaces is not working!", 1, clues.getClueInwards(2, 1));
         assertEquals("Skipping empty spaces is showing shifted values at their original location", 0, clues.getClueInwards(2, 2));
 
         LOGGER.info("****Four Severe logs should be logged here:");
-        assertEquals("Errors not handled well (column out of range)",0, clues.getClueInwards(5, 0));
-        assertEquals("Errors not handled well (column out of range)",0, clues.getClueInwards(-1, 0));
-        assertEquals("Errors not handled well (index out of range)",0, clues.getClueInwards(0, 10));
-        assertEquals("Errors not handled well (index out of range)",0, clues.getClueInwards(0, -1));
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueInwards(5, 0));
+        assertEquals("Errors not handled well (column out of range)", 0, clues.getClueInwards(-1, 0));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueInwards(0, 10));
+        assertEquals("Errors not handled well (index out of range)", 0, clues.getClueInwards(0, -1));
 
     }
 
@@ -276,7 +277,7 @@ public class CluesTest {
         assertEquals(2, clues.getClueOutwards(0, 2));
 
         assertEquals(1, clues.getClueOutwards(1, 1));
-        assertEquals("Skipping empty spaces is not working",1, clues.getClueOutwards( 1, 0));
+        assertEquals("Skipping empty spaces is not working", 1, clues.getClueOutwards(1, 0));
 
         assertEquals("Skipping empty spaces is showing shifted clues at their original location!", 0, clues.getClueOutwards(1, 2));
 
@@ -295,9 +296,59 @@ public class CluesTest {
     }
 
     @Test
-    public void setCurrCol() throws Exception {
+    public void checkIterator() throws Exception {
+        Clues clues = getBasicClues();
+        clues.setCurrCol(0);
+        assertEquals(0, clues.getCurrCol());
+        checkIterAgainstArray(clues, clues.getCluesInwards(0));
 
-        //TODO: COMPLETE
+        clues.setCurrCol(1);
+        checkIterAgainstArray(clues, clues.getCluesInwards(1));
+
+        clues.setCurrCol(0);
+        clues.setIterDirection(IODirection.OUTWARDS);
+        checkIterAgainstArray(clues, clues.getCluesOutwards(0));
+
+        clues.setCurrCol(1);
+        clues.setIterDirection(IODirection.OUTWARDS);
+        int[] array = new int[3];
+        array[0] = array[1] = 1;
+        array[2] = 0;
+        checkIterAgainstArray(clues, array);
+
+        array = new int[3];
+        clues.setCurrCol(4);
+        checkIterAgainstArray(clues, array);
+
+        clues.setIterDirection(IODirection.OUTWARDS);
+        checkIterAgainstArray(clues, array);
+
+        clues.setCurrCol(3);
+        clues.setIterDirection(IODirection.INWARDS);
+        int counter = 0;
+        for (int clue :
+                clues) {
+            assertEquals(0, counter);
+            counter++;
+            assertEquals(1, clue);
+        }
+
+        counter = 0;
+        clues.setIterDirection(IODirection.OUTWARDS);
+        for (int clue :
+                clues) {
+            assertEquals(0, counter);
+            counter++;
+            assertEquals(1, clue);
+        }
+    }
+
+    private void checkIterAgainstArray(Clues clues, int[] array) {
+        int counter = 0;
+        for (int clue : clues) {
+            assertEquals(array[counter], clue);
+            counter++;
+        }
     }
 
     @Test

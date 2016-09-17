@@ -3,10 +3,29 @@ import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 /**
- * Created by Hermes235 on 9.9.2016.
+ * Clues class, which is defining one set of clues in the Katana.
+ * Can be iterated over, stores values in 2-d array. First index is "Column" (defines the row of Katana), second index is "Index" (defines the individual numbers in specified Column)
+ * Clues are stored in OUTWARDS direction by default.
+ * <p>
+ * Example:
+ * 3x3 Katana grid with 2 clues on each row:
+ * <p>
+ * |---
+ * |111
+ * ------
+ * 11|■□■
+ * --|□□□
+ * -1|□■□
+ * <p>
+ * For the rows Clues it is indexed as follows:
+ * <p>
+ * [0,1] [0,0] |
+ * [1,1] [1,0] |
+ * [2,1] [2,0] |
  */
 public class Clues implements Iterable<Integer>, Iterator<Integer> {
     private static final Logger LOGGER = Logger.getLogger(Clues.class.getName());
+    //Default OUTWARDS direction!
     private int[][] clues;
     private int currCol = 0;
     private int currIndex = 0;
@@ -31,8 +50,8 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     }
 
 
-    public void setClue(IODirection dir, int column, int index, int number){
-        if (dir == IODirection.INWARDS){
+    public void setClue(IODirection dir, int column, int index, int number) {
+        if (dir == IODirection.INWARDS) {
             setClueInwards(column, index, number);
         } else {
             setClueOutwards(column, index, number);
@@ -264,8 +283,8 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     /**
      * Returns the clue on specified position, INCLUDING empty spaces!
      */
-    public int getTrueClueInwards(int column, int clueIndex){
-        if (!isColumnInRange(column)){
+    public int getTrueClueInwards(int column, int clueIndex) {
+        if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return 0;
         }
@@ -282,8 +301,8 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     /**
      * Returns the clue on specified position, INCLUDING empty spaces!
      */
-    public int getTrueClueOutwards(int column, int clueIndex){
-        if (!isColumnInRange(column)){
+    public int getTrueClueOutwards(int column, int clueIndex) {
+        if (!isColumnInRange(column)) {
             LOGGER.severe("Column index is out of range!");
             return 0;
         }
@@ -299,7 +318,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     /**
      * Returns the clue on specified position in specified direction. INCLUDING empty spaces!
      */
-    public int getTrueClue(IODirection dir, int column, int clueIndex){
+    public int getTrueClue(IODirection dir, int column, int clueIndex) {
         return dir == IODirection.INWARDS ? getTrueClueInwards(column, clueIndex) : getTrueClueOutwards(column, clueIndex);
     }
 
@@ -340,13 +359,14 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     /**
      * Returns the clue at specified position. Skipping empty spaces!
      */
-    public int getClue(IODirection dir, int column, int clueIndex){
+    public int getClue(IODirection dir, int column, int clueIndex) {
         return dir == IODirection.INWARDS ? getClueInwards(column, clueIndex) : getClueOutwards(column, clueIndex);
     }
 
     /**
      * Returns the clue on specified position
-     *Skipping empty spaces
+     * Skipping empty spaces
+     *
      * @param clueIndex numbered from the INSIDE towards the edge! Skipping empty spaces
      */
     public int getClueOutwards(int column, int clueIndex) {
@@ -361,12 +381,12 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
 
         int index = 0;
-        while(clueIndex > 0 || clues[column][index] == 0){
-            if (clues[column][index] != 0){
+        while (clueIndex > 0 || clues[column][index] == 0) {
+            if (clues[column][index] != 0) {
                 clueIndex--;
             }
             index++;
-            if (!isIndexInRange(column, index)){
+            if (!isIndexInRange(column, index)) {
                 return 0;
             }
         }
@@ -376,78 +396,59 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
 
 
     /**
-     * Sets currently browsed column. Used for iterating! Also sets currIndex to max possible, so you can iterate.
+     * Sets currently browsed column. Used for iterating! Automatically sets the direction to INWARDS.
      */
     public void setCurrCol(int currCol) {
         if (!isColumnInRange(currCol)) {
             LOGGER.warning("trying to set currCol out of range!");
             this.currCol = 0;
+            setIterDirection(IODirection.INWARDS);
         }
         this.currCol = currCol;
-        currIndex = 0;
-        iterDirection = IODirection.OUTWARDS;
+        setIterDirection(IODirection.INWARDS);
     }
 
     /**
      * Sets the iteration direction to specified value, also sets the currIndex to the according value
      */
-    public void setIterDirection(IODirection dir){
+    public void setIterDirection(IODirection dir) {
         iterDirection = dir;
         if (dir == IODirection.OUTWARDS) currIndex = 0;
         else currIndex = clues[currCol].length - 1;
     }
 
+    /**
+     * Iterates through the column in set direction
+     */
     public Iterator<Integer> iterator() {
         return this;
     }
 
     public boolean hasNext() {
         if (!isColumnInRange(currCol) || !isIndexInRange(currIndex)) return false;
-        if (iterDirection == IODirection.OUTWARDS){
-        while (clues[currCol][currIndex] == 0 && currIndex < clues[currCol].length - 1) {
-            currIndex++;
-        }
-        return currIndex != clues[currCol].length - 1 || clues[currCol][currIndex] != 0;
-        } else{
-            while(clues[currCol][currIndex] == 0 && currIndex > 0) {
+        if (iterDirection == IODirection.INWARDS) {
+            while (clues[currCol][currIndex] == 0 && currIndex > 0) {
                 currIndex--;
             }
-            return currIndex != 0 || clues[currCol][currIndex] != 0;
+            return clues[currCol][currIndex] != 0;
+        } else {
+            while (clues[currCol][currIndex] == 0 && currIndex < clues[currCol].length - 1) {
+                currIndex++;
+            }
+            return clues[currCol][currIndex] != 0;
         }
     }
 
     public Integer next() {
-        if (currIndex > clues[currCol].length - 1 || currIndex <0) {
+        if (!hasNext()) return 0;
+        if (currIndex > clues[currCol].length - 1 || currIndex < 0) {
             LOGGER.severe("Iterator called after the end!");
             throw new NoSuchElementException();
         }
         int toReturn = clues[currCol][currIndex];
         if (toReturn == 0) {
-            LOGGER.warning("toReturn was 0! This loop is necessary!");
-            if (iterDirection == IODirection.OUTWARDS) {
-                while (currIndex < clues[currCol].length && clues[currCol][currIndex] == 0) {
-                    currIndex++;
-                }
-                if (currIndex >= clues[currCol].length) {
-                    LOGGER.severe("Iterator called after the end!");
-                    throw new NoSuchElementException();
-                } else {
-                    currIndex++;
-                    return clues[currCol][currIndex - 1];
-                }
-            } else {
-                while(currIndex >= 0 && clues[currCol][currIndex] == 0){
-                    currIndex--;
-                }
-                if (currIndex < 0){
-                    LOGGER.severe("Iterator called after the end!");
-                    throw new NoSuchElementException();
-                } else {
-                    currIndex--;
-                    return clues[currCol][currIndex + 1];
-                }
-
-            }
+            LOGGER.severe("hasNext passed while toReturn was 0! Returning 0");
+            return 0;
         }
         if (iterDirection == IODirection.OUTWARDS) currIndex++;
         else currIndex--;
@@ -463,6 +464,10 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             LOGGER.severe("Column out of range!");
             return null;
         }
-        return clues[column];
+        return reverseArray(clues[column]);
+    }
+
+    public int getCurrCol() {
+        return currCol;
     }
 }
