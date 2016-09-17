@@ -258,7 +258,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             LOGGER.severe("Column index is out of range!");
             return null;
         }
-        return reverseArray(clues[column]);
+        return clues[column];
     }
 
     /**

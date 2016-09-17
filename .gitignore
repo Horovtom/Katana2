@@ -1,5 +1,4 @@
-target/
-.idea/
-Katana2_0.iml
+.gitignore
 Katana.iml
-src/main/resources/
+target/
+/.idea/

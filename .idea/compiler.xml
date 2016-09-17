@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="Katana" />
         <module name="Katana2_0" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Katana" target="1.5" />
       <module name="Katana2_0" target="1.5" />
     </bytecodeTargetLevel>
   </component>

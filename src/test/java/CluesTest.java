@@ -3,6 +3,7 @@ import org.junit.Test;
 import java.io.OutputStreamWriter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by Hermes235 on 9.9.2016.
@@ -209,9 +210,35 @@ public class CluesTest {
 
     @Test
     public void getCluesOutwards() throws Exception {
-        //TODO: COMPLETE
+        Clues clues = new Clues(2, 3);
+        int[] array = new int[3];
+        array[0] = 2;
+        array[2] = 3;
+
+        //****
+        //2-3|
+        //---|
+        clues.setCluesInwards(0, array);
+
+        //****
+        //2-3|
+        //3-2|
+        clues.setCluesOutwards(1, array);
+
+        int[] got = clues.getCluesOutwards(0);
+        int[] got2 = clues.getCluesOutwards(1);
+
+        assertFalse("Wrong direction of setCluesInwards() or setCluesOutwards()", got[0] == got2[0]);
+
+        assertEquals(2, got[2]);
+        assertEquals(3, got.length);
+        assertEquals(0, got[1]);
+        assertEquals(3, got[0]);
+        assertEquals(3, got2[2]);
 
     }
+
+
 
     @Test
     public void getClueInwards() throws Exception {
