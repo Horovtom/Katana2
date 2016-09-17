@@ -92,12 +92,22 @@ public class CluesTest {
         assertEquals(3, clues.getClue(IODirection.INWARDS, 0, 0));
         assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 1));
         assertEquals(2, clues.getClue(IODirection.OUTWARDS, 0, 0));
-
     }
 
     @Test
     public void setCluesInwards() throws Exception {
+        int[] array = new int[2];
+        array[0] = 2;
+        array[1] = 3;
 
+        Clues clues = new Clues(1, 2);
+        //***
+        //23|
+        clues.setCluesInwards(0, array);
+
+        assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals(3, clues.getClue(IODirection.INWARDS, 0, 1));
+        assertEquals(3, clues.getClue(IODirection.OUTWARDS, 0, 0));
     }
 
     @Test
