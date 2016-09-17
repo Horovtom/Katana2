@@ -135,6 +135,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
         this.clues[column] = new int[clues.length];
         System.arraycopy(clues, 0, this.clues[column], 0, clues.length);
+        maxIndex = Math.max(clues.length, maxIndex);
     }
 
     public void setCluesInwards(int column, int[] clues) {
@@ -143,7 +144,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             return;
         }
         this.clues[column] = reverseArray(clues);
-
+        maxIndex = Math.max(clues.length, maxIndex);
     }
 
     private int[] reverseArray(int[] array) {
@@ -162,6 +163,9 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         calculateRealMaxIndex();
     }
 
+    /**
+     * Should be used with align() or AFTER calling align();
+     */
     public void calculateRealMaxIndex() {
         maxIndex = 0;
         for (int[] clue : clues) {

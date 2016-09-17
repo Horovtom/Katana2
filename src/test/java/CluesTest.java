@@ -138,12 +138,16 @@ public class CluesTest {
     }
 
     @Test
-    public void calculateRealMaxIndex() throws Exception {
-
-    }
-
-    @Test
     public void getMaxIndex() throws Exception {
+        int[] array = new int[3];
+
+        Clues clues = new Clues(2, 2);
+        assertEquals("MaxIndex is not set when Clues is initialized", 2, clues.getMaxIndex());
+        clues.setCluesInwards(1, array);
+        assertEquals("MaxIndex is not refreshing when appending new array!", 3, clues.getMaxIndex());
+        array = new int[5];
+        clues.setCluesInwards(0, array);
+        assertEquals("MaxIndex is not refreshing when appending new array!", 5, clues.getMaxIndex());
 
     }
 
