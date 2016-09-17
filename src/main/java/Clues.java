@@ -49,15 +49,55 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
     }
 
+    /**
+     * Check whether column is in range and if number is not negative
+     * Meant to be used with:
+     * {@linkplain #appendOutwards(int, int)}
+     * {@linkplain #appendInwards(int, int)}
+     */
+    private boolean obeysBoundariesForAppend(int column, int number) {
+        if (!isColumnInRange(column)) {
+            LOGGER.warning("Column out of range!");
+            return false;
+        }
+
+        if (number < 0) {
+            LOGGER.warning("Trying to resize array to add negative number!");
+            return false;
+        }
+    }
+
+    /**
+     * Adds specified value to the end in the specified direction
+     */
     public void append(IODirection dir, int column, int number){
-
+        if (dir == IODirection.INWARDS) {
+            appendInwards(column, number);
+        } else {
+            appendOutwards(column, number);
+        }
     }
 
+    /**
+     * Meant to be used with {@linkplain #append(IODirection, int, int)}
+     */
     private void appendInwards(int column, int number){
-
+        if (!obeysBoundariesForAppend(column, number)) {
+            LOGGER.warning("Skipping cause of invalid arguments!");
+            return;
+        }
+        //TODO: COMPLETE
     }
 
+    /**
+     * Meant to be used with {@linkplain #append(IODirection, int, int)}
+     */
     private void appendOutwards(int column, int number){
+        if (!obeysBoundariesForAppend(column, number)) {
+            LOGGER.warning("Skipping cause of invalid arguments!");
+            return;
+        }
+        //TODO: COMPLETE
 
     }
 
