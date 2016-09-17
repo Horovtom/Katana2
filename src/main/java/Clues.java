@@ -133,8 +133,8 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             LOGGER.severe("Column out of range!");
             return;
         }
-
-        this.clues[column] = reverseArray(clues);
+        this.clues[column] = new int[clues.length];
+        System.arraycopy(clues, 0, this.clues[column], 0, clues.length);
     }
 
     public void setCluesInwards(int column, int[] clues) {
@@ -142,8 +142,8 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             LOGGER.severe("Column out of range!");
             return;
         }
+        this.clues[column] = reverseArray(clues);
 
-        this.clues[column] = clues;
     }
 
     private int[] reverseArray(int[] array) {

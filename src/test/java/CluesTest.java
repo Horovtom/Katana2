@@ -24,7 +24,36 @@ public class CluesTest {
         array[0] = 2;
         array[1] = 1;
         array[2] = 3;
+        clues.setCluesInwards(0, array);
 
+        array[0] = 1;
+        array[1] = 1;
+        array[2] = 0;
+        clues.setCluesInwards(1, array);
+
+        array[0] = 2;
+        array[1] = 0;
+        array[2] = 1;
+        clues.setCluesInwards(2, array);
+
+        array[0] = 0;
+        array[1] = 0;
+        array[2] = 1;
+        clues.setCluesInwards(3, array);
+
+        array[0] = 0;
+        array[1] = 0;
+        array[2] = 0;
+        clues.setCluesInwards(4, array);
+
+       return clues;
+    }
+
+    @Test
+    public void testBasicOperation() throws Exception {
+        Clues clues = getBasicClues();
+        assertEquals("Input array direction does not work!", 2, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals("Input array column set does not work!", 0, clues.getClue(IODirection.INWARDS, 4, 0));
     }
 
     @Test
