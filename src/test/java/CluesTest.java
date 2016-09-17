@@ -153,56 +153,66 @@ public class CluesTest {
 
     @Test
     public void getColumns() throws Exception {
-
+        //TODO: COMPLETE
     }
 
     @Test
     public void getIndexes() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void getIndexes1() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void clearClues() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void getCluesOutwards() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void getClueInwards() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void getClue() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void getClueOutwards() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void setCurrCol() throws Exception {
 
+        //TODO: COMPLETE
     }
 
     @Test
     public void setIterDirection() throws Exception {
+        //TODO: COMPLETE
 
     }
 
     @Test
     public void getCluesInwards() throws Exception {
+        //TODO: COMPLETE
 
     }
 
