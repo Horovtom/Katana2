@@ -49,12 +49,20 @@ public class Grid {
         return type == ClueType.COLUMN ? columns : rows;
     }
 
-
-    //TODO: IMPLEMENT IT FOR THE IOTYPES
+    /**
+     * Sets clue in specified ClueType in INWARDS direction
+     */
     public void setClue(ClueType type, int column, int index, int value){
-        Clues clue = type == ClueType.ROW ? rows: columns;
-        //TODO: CHECK?
+        Clues clue = (type == ClueType.ROW ? rows: columns);
         clue.setClue(IODirection.INWARDS, column, index, value);
+    }
+
+    /**
+     * Sets clue in specified ClueType and Direction
+     */
+    public void setClue(ClueType type, IODirection dir, int column, int index, int value){
+        Clues clue = (type == ClueType.ROW ? rows: columns);
+        clue.setClue(dir, column, index, value);
     }
 
     public void setClueColumn(int column, int index, int value){
@@ -78,6 +86,9 @@ public class Grid {
         return grid[row][column];
     }
 
+    /**
+     * Erases all Cells
+     */
     public void eraseGrid(){
         LOGGER.info("Setting the whole grid to " + CellState.WHITE + "!");
         for (int i = 0; i < grid.length; i++) {
@@ -85,5 +96,14 @@ public class Grid {
                 grid[i][j] = CellState.WHITE;
             }
         }
+    }
+
+    /**
+     * Resets everything to blank state
+     */
+    public void resetGrid(){
+        eraseGrid();
+        rows.clearClues();
+        columns.clearClues();
     }
 }

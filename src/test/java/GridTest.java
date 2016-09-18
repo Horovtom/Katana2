@@ -1,4 +1,7 @@
+import com.sun.rowset.internal.Row;
 import org.junit.Test;
+
+import javax.swing.text.html.HTMLDocument;
 
 import static org.junit.Assert.assertEquals;
 
@@ -113,32 +116,36 @@ public class GridTest {
 
     @Test
     public void setClue() throws Exception {
+        Grid grid = new Grid(2,2,2,3);
 
-    }
+        grid.setClue(ClueType.COLUMN, IODirection.INWARDS, 0, 0, 2);
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 0, 0, 3);
 
-    @Test
-    public void setClueColumn() throws Exception {
+        assertEquals(3, grid.getClue(ClueType.COLUMN, IODirection.INWARDS, 0, 1));
+        assertEquals(2, grid.getClue(ClueType.COLUMN, IODirection.OUTWARDS, 0, 1));
 
-    }
-
-    @Test
-    public void setClueRow() throws Exception {
-
+        grid.setClue(ClueType.ROW, IODirection.INWARDS, 0, 0, 1);
+        grid.setClue(ClueType.ROW, IODirection.INWARDS, 0, 0, 2);
+        assertEquals(2, grid.getClue(ClueType.ROW, IODirection.INWARDS, 0, 0));
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 0, 2, 1);
+        assertEquals(1, grid.getClue(ClueType.ROW, IODirection.OUTWARDS, 0, 0));
     }
 
     @Test
     public void setCell() throws Exception {
-
-    }
-
-    @Test
-    public void getCell() throws Exception {
-
+        Grid grid = new Grid(2, 2);
+        grid.setCell(0, 0, CellState.BLACK);
+        assertEquals(CellState.BLACK, grid.getCell(0, 0));
+        grid.setCell(0, 1, CellState.DOT);
+        assertEquals(CellState.DOT, grid.getCell(0, 1));
     }
 
     @Test
     public void eraseGrid() throws Exception {
-
+        Grid grid = getBasicGrid();
+        assertEquals(CellState.BLACK, grid.getCell(0, 0));
+        grid.eraseGrid();
+        assertEquals(CellState.WHITE, grid.getCell(0, 0));
     }
 
 }
