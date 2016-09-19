@@ -187,7 +187,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         if (!foundValue) return;
 
         //No holes, need to resize array
-        resizeToAddStart(0, 0);
+        resizeToAddStart(column, 0);
     }
 
     /**
@@ -229,7 +229,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         if (!foundValue) return;
 
         //No holes, need to resize array
-        resizeToAddEnd(0, 0);
+        resizeToAddEnd(column, 0);
     }
 
     /**
@@ -275,8 +275,17 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
 
         if (clues[column][0] != 0){
-            //Shift or resize?
-            //TODO: COMPLETE
+            //Shift
+            shift(IODirection.OUTWARDS, column, 1);
+            setClue(IODirection.OUTWARDS, column, 0, number);
+        } else {
+            for (int i = 1; i < clues[column].length; i++) {
+                if (clues[column][i] != 0){
+                    clues[column][i - 1] = number;
+                    return;
+                }
+            }
+            clues[column][clues[column].length - 1] = number;
         }
     }
 

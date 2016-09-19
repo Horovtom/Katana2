@@ -409,8 +409,8 @@ public class CluesTest {
         assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 2, 0));
         assertEquals(2, clues.getClue(0, 0));
         //3:
-        assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 3, 1));
-        assertEquals(2, clues.getClue(3, 0));
+        assertEquals(2, clues.getTrueClue(IODirection.OUTWARDS, 3, 1));
+        assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 3, 0));
 
         //------Step2:
         clues.append(IODirection.OUTWARDS, 0, 3);
