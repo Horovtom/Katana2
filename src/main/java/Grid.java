@@ -136,6 +136,10 @@ public class Grid {
 
                 if (counter != clue) return false;
             }
+            while(current < grid[i].length){
+                current++;
+                if (grid[i][current] == CellState.BLACK) return false;
+            }
         }
 
         //Rows:
@@ -160,6 +164,10 @@ public class Grid {
                 }
 
                 if (counter != clue) return false;
+            }
+            while(current < grid.length){
+                current++;
+                if (grid[current][i] == CellState.BLACK) return false;
             }
         }
         return true;
