@@ -548,7 +548,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
 
         if (!isIndexInRange(column, clueIndex)) {
-            LOGGER.severe("clueIndex is out of range!");
+            LOGGER.warning("clueIndex is out of range!");
             return 0;
         }
 
@@ -561,12 +561,12 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      */
     private int getTrueClueOutwards(int column, int clueIndex) {
         if (!isColumnInRange(column)) {
-            LOGGER.severe("Column index is out of range!");
+            LOGGER.warning("Column index is out of range!");
             return 0;
         }
 
         if (!isIndexInRange(column, clueIndex)) {
-            LOGGER.severe("clueIndex is out of range!");
+            LOGGER.warning("clueIndex is out of range!");
             return 0;
         }
 
@@ -594,7 +594,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
 
         if (!isIndexInRange(column, clueIndex)) {
-            LOGGER.severe("clueIndex is out of range!");
+            LOGGER.warning("clueIndex is out of range!");
             return 0;
         }
 
@@ -634,7 +634,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
 
         if (!isIndexInRange(column, clueIndex)) {
-            LOGGER.severe("clueIndex is out of range!");
+            LOGGER.warning("clueIndex is out of range!");
             return 0;
         }
 
