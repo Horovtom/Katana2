@@ -385,14 +385,14 @@ public class CluesTest {
         //3: --
 
         assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 0, 0));
-        assertEquals(3, clues.getClue(0, 0));
+        assertEquals(3, clues.getClue(1, 0));
 
         //Start:
         //-----Step1:
         clues.append(0, 1);
         clues.append(1, 4);
-        clues.append(IODirection.OUTWARDS, 3, 2);
-        clues.append(IODirection.INWARDS, 4, 2);
+        clues.append(IODirection.OUTWARDS, 2, 2);
+        clues.append(IODirection.INWARDS, 3, 2);
 
         //0:  21
         //1: 314
@@ -529,7 +529,7 @@ public class CluesTest {
     }
 
     private Clues getWrapClues(){
-        Clues clues = new Clues(0, 3);
+        Clues clues = new Clues(1, 3);
         clues.setClue(0, 0, 1);
         clues.setClue(IODirection.OUTWARDS, 0, 0, 2);
         return clues;
@@ -558,8 +558,8 @@ public class CluesTest {
 
         assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 0, 0));
         assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 0, 1));
-        assertEquals(1, clues.getTrueClue(IODirection.OUTWARDS, 0, 2));
-        assertEquals(2, clues.getTrueClue(IODirection.OUTWARDS, 0, 3));
+        assertEquals(2, clues.getTrueClue(IODirection.OUTWARDS, 0, 2));
+        assertEquals(1, clues.getTrueClue(IODirection.OUTWARDS, 0, 3));
         assertEquals(4, clues.getIndexes(0));
 
     }
@@ -584,7 +584,7 @@ public class CluesTest {
         clues.shift(IODirection.OUTWARDS, 0, 3);
         // 1----
         for (int i = 0; i < 4; i++) {
-            assertFalse("There was a value at: " + i, clues.trueClue(0, i));
+            assertFalse("There was a value at: " + i, clues.trueClue(IODirection.OUTWARDS, 0, i));
         }
         assertTrue(clues.clue(0, 0));
         assertEquals(1, clues.getClue(IODirection.INWARDS, 0, 0));

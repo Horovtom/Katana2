@@ -95,21 +95,6 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     }
 
     /**
-     * Meant to be used with {@linkplain #append(IODirection, int, int)}
-     */
-    private void appendInwards(int column, int number){
-        if (!obeysBoundariesForAppend(column, number)) {
-            LOGGER.warning("Skipping cause of invalid arguments!");
-            return;
-        }
-
-        if (clues[column][0] != 0){
-            //Shift or resize?
-            //if (clues[column])
-        }
-    }
-
-    /**
      * Returns whether there is a clue on specified position in specified direction
      * Not counting empty spaces
      * @return false if there is 0 (meaning no clue is there)
@@ -181,7 +166,28 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      * NEEDED - meaning all the values that need to be shifted in order to free up 1 cell closest to the Board
      */
     private void shiftOutwards(int column){
-        //TODO COMPLETE
+        //Scan for holes
+        int length = clues[column].length;
+        boolean foundValue = false;
+        for (int i = 0; i < length; i++) {
+            if (clues[column][i] == 0){
+                if (!foundValue) continue;
+                //There is a hole here!
+                //Shift all values OUTWARDS going: (->)
+                for (int j = i; j > 0; j--){
+                    clues[column][j] = clues[column][j - 1];
+                }
+                clues[column][0] = 0;
+                return;
+            } else {
+                foundValue = true;
+            }
+        }
+
+        if (!foundValue) return;
+
+        //No holes, need to resize array
+        resizeToAddStart(0, 0);
     }
 
     /**
@@ -204,8 +210,26 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
      * NEEDED - meaning all the values that need to be shifted in order to free up 1 cell closest to the Edge
      */
     private void shiftInwards(int column){
-        //TODO COMPLETE
+        //Find hole:
+        int lastIndex = clues[column].length - 1;
+        boolean foundValue = false;
+        for (int i = lastIndex; i >= 0; i--){
+            if (clues[column][i] == 0){
+                if (!foundValue) continue;
+                //Here is a hole!
+                //Shift all values INWARDS going: (<-)
+                for(int j = i; j < lastIndex; j++){
+                    clues[column][j] = clues[column][ j + 1];
+                }
+                clues[column][lastIndex] = 0;
+                return;
+            } else foundValue = true;
+        }
 
+        if (!foundValue) return;
+
+        //No holes, need to resize array
+        resizeToAddEnd(0, 0);
     }
 
     /**
@@ -240,6 +264,21 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
     }
 
+
+    /**
+     * Meant to be used with {@linkplain #append(IODirection, int, int)}
+     */
+    private void appendInwards(int column, int number){
+        if (!obeysBoundariesForAppend(column, number)) {
+            LOGGER.warning("Skipping cause of invalid arguments!");
+            return;
+        }
+
+        if (clues[column][0] != 0){
+            //Shift or resize?
+            //TODO: COMPLETE
+        }
+    }
 
     /**
      * Sets clue in specified position in INWARDS direction to be certain number
