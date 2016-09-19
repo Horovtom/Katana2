@@ -148,4 +148,13 @@ public class GridTest {
         assertEquals(CellState.WHITE, grid.getCell(0, 0));
     }
 
+    @Test
+    public  void isCompleted() throws  Exception{
+        Grid grid = new Grid(4, 4, 2,2);
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 0, 0, 2);
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 1, 0, 1);
+
+
+    }
+
 }

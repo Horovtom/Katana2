@@ -69,6 +69,14 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     }
 
     /**
+     * Returns the clue at specified position, index in the INWARDS direction
+     */
+    public int getClue(int column, int index){
+        return getClue(IODirection.INWARDS, column, index);
+    }
+
+
+    /**
      * Adds specified value to the end in the specified direction
      */
     public void append(IODirection dir, int column, int number){
@@ -77,6 +85,13 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         } else {
             appendOutwards(column, number);
         }
+    }
+
+    /**
+     * Adds specified value to the end in INWARDS direction
+     */
+    public void append(int column, int number){
+        appendInwards(column, number);
     }
 
     /**

@@ -106,4 +106,9 @@ public class Grid {
         rows.clearClues();
         columns.clearClues();
     }
+
+    public boolean isCompleted(){
+
+
+    }
 }

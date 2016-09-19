@@ -373,4 +373,66 @@ public class CluesTest {
             counter++;
         }
     }
+
+    @Test
+    private void append(){
+        Clues clues = new Clues(4, 2);
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 2);
+        clues.setClue(IODirection.OUTWARDS, 1, 0, 1);
+        clues.setClue(IODirection.OUTWARDS, 1, 1, 3);
+
+        //0: -2
+        //1: 31
+        //2: --
+        //3: --
+
+        assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 0, 0));
+        assertEquals(3, clues.getClue(0, 0));
+
+        //Start:
+        //-----Step1:
+        clues.append(0, 1);
+        clues.append(1, 4);
+        clues.append(IODirection.OUTWARDS, 3, 2);
+        clues.append(IODirection.INWARDS, 4, 2);
+
+        //0:  21
+        //1: 314
+        //2:   2
+        //3:   2
+        // 0:
+        assertEquals(2, clues.getClue(0, 0));
+        assertEquals(1, clues.getClue(0, 1));
+        // 1:
+        assertEquals(3, clues.getClue(1, 0));
+        assertEquals(1, clues.getClue(1, 1));
+        assertEquals(4, clues.getClue(1, 2));
+        //2:
+        assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 2, 0));
+        assertEquals(2, clues.getClue(0, 0));
+        //3:
+        assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 3, 1));
+        assertEquals(2, clues.getClue(3, 0));
+
+        //------Step2:
+        clues.append(IODirection.OUTWARDS, 0, 3);
+        clues.append(IODirection.OUTWARDS, 2, 3);
+
+        //0: 321
+        //1: 314
+        //2:  32
+        //3:   2
+
+        //0:
+        assertEquals(3, clues.getClue(0, 0));
+        assertEquals(2, clues.getClue(IODirection.OUTWARDS, 0, 1));
+        assertEquals(1, clues.getClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(0, clues.getClue(IODirection.OUTWARDS, 0, 3));
+
+        //2:
+        assertEquals(3, clues.getClue(2, 0));
+        assertEquals(2, clues.getClue(2, 1));
+        assertEquals(0, clues.getClue(2, 2));
+        assertEquals(0, clues.getClue(IODirection.OUTWARDS, 2, 2));
+    }
 }
