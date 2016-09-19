@@ -108,7 +108,7 @@ public class Grid {
     }
 
     public boolean isCompleted(){
-
-
+//TODO COMPLETE
+        return false;
     }
 }

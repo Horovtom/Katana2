@@ -4,9 +4,7 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by Hermes235 on 9.9.2016.
@@ -375,7 +373,7 @@ public class CluesTest {
     }
 
     @Test
-    private void append(){
+    public void append(){
         Clues clues = new Clues(4, 2);
         clues.setClue(IODirection.OUTWARDS, 0, 0, 2);
         clues.setClue(IODirection.OUTWARDS, 1, 0, 1);
@@ -434,5 +432,177 @@ public class CluesTest {
         assertEquals(2, clues.getClue(2, 1));
         assertEquals(0, clues.getClue(2, 2));
         assertEquals(0, clues.getClue(IODirection.OUTWARDS, 2, 2));
+    }
+
+    @Test
+    public void shiftOutwardsMultipleComplicated(){
+        Clues clues = new Clues(1, 5);
+        clues.setClue(IODirection.INWARDS, 0, 1, 3);
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 2);
+        clues.setClue(IODirection.OUTWARDS, 0, 1, 1);
+        // -3-12
+        clues.shift(IODirection.OUTWARDS, 0, 1);
+        // -312-
+
+        assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(2, clues.getTrueClue(IODirection.OUTWARDS, 0, 1));
+        assertEquals(1, clues.getTrueClue(IODirection.OUTWARDS, 0, 2));
+        assertEquals(3, clues.getTrueClue(IODirection.OUTWARDS, 0, 3));
+        assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 0, 0));
+    }
+
+    @Test
+    public void shiftInwardsMultipleComplicated(){
+        Clues clues = new Clues(1, 5);
+        clues.setClue(IODirection.INWARDS, 0, 0, 2);
+        clues.setClue(IODirection.INWARDS, 0, 1, 1);
+        clues.setClue(IODirection.INWARDS, 0, 3, 3);
+        // 21-3-
+        clues.shift(IODirection.INWARDS, 0,1);
+        // -213-
+
+        assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 0, 0));
+        assertEquals(2, clues.getTrueClue(IODirection.INWARDS, 0, 1));
+        assertEquals(1, clues.getTrueClue(IODirection.INWARDS, 0, 2));
+        assertEquals(3, clues.getTrueClue(IODirection.INWARDS, 0, 3));
+        assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 0, 4));
+
+    }
+
+    @Test
+    public void shiftInwardsMultipleBasic(){
+        Clues clues = new Clues(1, 5);
+        clues.setClue(IODirection.INWARDS, 0, 1, 2);
+        clues.setClue(IODirection.INWARDS, 0, 2, 1);
+        // -21--
+
+        clues.shift(IODirection.INWARDS,0, 1);
+        assertFalse(clues.trueClue(IODirection.INWARDS, 0, 1));
+        assertTrue(clues.trueClue(IODirection.INWARDS, 0, 2));
+        assertTrue(clues.trueClue(IODirection.INWARDS, 0, 3));
+
+        assertEquals(2, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals(1, clues.getClue(IODirection.INWARDS, 0, 1));
+    }
+
+    @Test
+    public void shiftOutwardsMultipleBasic(){
+        Clues clues = new Clues(1, 4);
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 1);
+        clues.setClue(IODirection.OUTWARDS, 0, 1, 2);
+        // --21
+        clues.shift(IODirection.OUTWARDS, 0, 2);
+        // 21--
+
+        assertFalse(clues.trueClue(IODirection.OUTWARDS, 0, 0));
+        assertFalse(clues.trueClue(IODirection.OUTWARDS, 0, 1));
+        assertTrue(clues.trueClue(IODirection.OUTWARDS, 0, 2));
+        assertTrue(clues.trueClue(IODirection.OUTWARDS, 0, 3));
+        assertEquals(2, clues.getClue(0, 0));
+        assertEquals(1, clues.getClue(0, 1));
+    }
+
+    @Test
+    public void shiftInwardsResize(){
+        Clues clues = new Clues(1, 3);
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 1);
+        // --1
+        clues.shift(IODirection.INWARDS, 0, 1);
+        // ---1
+        assertEquals(4, clues.getIndexes(0));
+        assertEquals(1, clues.getClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(0, clues.getClue(IODirection.OUTWARDS, 0, 1));
+        assertFalse(clues.clue(IODirection.OUTWARDS, 0, 1));
+    }
+
+    @Test
+    public void shiftOutwardsResize(){
+        Clues clues = new Clues(1, 3);
+        clues.setClue(IODirection.INWARDS, 0, 0, 1);
+        //  1--
+        clues.shift(IODirection.OUTWARDS, 0, 1);
+        // 1---
+
+        assertEquals(4, clues.getIndexes(0));
+        assertEquals(1, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertFalse(clues.clue(0, 1));
+    }
+
+    private Clues getWrapClues(){
+        Clues clues = new Clues(0, 3);
+        clues.setClue(0, 0, 1);
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 2);
+        return clues;
+    }
+
+    @Test
+    public void shiftInwardsWrap(){
+        Clues clues = getWrapClues();
+        // 1-2
+        clues.shift(IODirection.INWARDS, 0, 2);
+        // --12
+
+        assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 0, 0));
+        assertEquals(0, clues.getTrueClue(IODirection.INWARDS, 0, 1));
+        assertEquals(1, clues.getTrueClue(IODirection.INWARDS, 0, 2));
+        assertEquals(2, clues.getTrueClue(IODirection.INWARDS, 0, 3));
+        assertEquals(4, clues.getIndexes(0));
+    }
+
+    @Test
+    public void shiftOutwardsWrap(){
+        Clues clues = getWrapClues();
+        //  1-2
+        clues.shift(IODirection.OUTWARDS, 0, 2);
+        // 12--
+
+        assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(0, clues.getTrueClue(IODirection.OUTWARDS, 0, 1));
+        assertEquals(1, clues.getTrueClue(IODirection.OUTWARDS, 0, 2));
+        assertEquals(2, clues.getTrueClue(IODirection.OUTWARDS, 0, 3));
+        assertEquals(4, clues.getIndexes(0));
+
+    }
+
+    @Test
+    public void shiftBasic(){
+        Clues clues = new Clues(1, 5);
+
+        clues.setClue(IODirection.OUTWARDS, 0, 0, 1);
+        // ----1
+
+        //Begin
+        //-------OUTWARDS
+        clues.shift(IODirection.OUTWARDS, 0, 1);
+        // ---1-
+
+        assertFalse(clues.trueClue(0, 0));
+        assertEquals(1, clues.getClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(1, clues.getTrueClue(IODirection.OUTWARDS, 0, 1));
+        assertFalse(clues.clue(0, 1));
+
+        clues.shift(IODirection.OUTWARDS, 0, 3);
+        // 1----
+        for (int i = 0; i < 4; i++) {
+            assertFalse("There was a value at: " + i, clues.trueClue(0, i));
+        }
+        assertTrue(clues.clue(0, 0));
+        assertEquals(1, clues.getClue(IODirection.INWARDS, 0, 0));
+
+        //-------INWARDS
+        clues.shift(IODirection.INWARDS, 0, 3);
+        // ---1-
+
+        assertFalse(clues.trueClue(0, 0));
+        assertEquals(1, clues.getClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(1, clues.getTrueClue(IODirection.OUTWARDS, 0, 1));
+        assertFalse(clues.clue(0, 1));
+
+        clues.shift(IODirection.INWARDS, 0, 1);
+        // ----1
+
+        assertTrue(clues.trueClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(1, clues.getTrueClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals(0, clues.getClue(IODirection.OUTWARDS, 0, 1));
     }
 }

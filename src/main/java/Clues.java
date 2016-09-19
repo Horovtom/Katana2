@@ -102,7 +102,110 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             LOGGER.warning("Skipping cause of invalid arguments!");
             return;
         }
-        //TODO: COMPLETE
+
+        if (clues[column][0] != 0){
+            //Shift or resize?
+            //if (clues[column])
+        }
+    }
+
+    /**
+     * Returns whether there is a clue on specified position in specified direction
+     * Not counting empty spaces
+     * @return false if there is 0 (meaning no clue is there)
+     */
+    public boolean clue(IODirection dir, int column, int index){
+        return getClue(dir, column, index) != 0;
+    }
+
+    /**
+     * Returns whether there is a clue on specified position in INWARDS direction
+     * Not counting empty spaces
+     * @return false if there is 0 (meaning no clue is there)
+     */
+    public boolean clue(int column, int index){
+        return getClue(IODirection.INWARDS, column, index) != 0;
+    }
+
+    /**
+     * Meant to be used when debugging
+     * Returns whether there is a clue on specified position in specified direction
+     * Counting empty spaces!
+     * @return false if there is 0 (meaning no clue is there)
+     */
+    public boolean trueClue(IODirection dir, int column, int index){
+        return getTrueClue(dir, column, index) != 0;
+    }
+
+    /**
+     * Meant to be used when debugging
+     * Returns whether there is a clue on specified position in INWARDS direction
+     * Counting empty spaces!
+     * @return false if there is 0 (meaning no clue is there)
+     */
+    public boolean trueClue(int column, int index){
+        return getTrueClue(IODirection.INWARDS, column, index) != 0;
+    }
+
+    /**
+     * Shifts all values NEEDED in specified column in specified direction by specified offset
+     * Resizes array if nessesary
+     * NEEDED - meaning all the values that need to be shifted in order to free up offset cells
+     * @param offset number of cells for all to shift
+     */
+    public void shift(IODirection direction, int column, int offset){
+        if (direction == IODirection.INWARDS){
+            shiftInwards(column, offset);
+        } else{
+            shiftOutwards(column, offset);
+        }
+    }
+
+    /**
+     * Meant to be used with {@link #shift(IODirection, int, int)}
+     * Shifts all values NEEDED in certain column outwards by specified offset.
+     * Resizes array if nessesary
+     * NEEDED - meaning all the values that need to be shifted in order to free up offset cells
+     * @param offset number of cells for all to shift
+     */
+    private void shiftOutwards(int column, int offset){
+        for (int i = 0; i < offset; i++) {
+            shiftOutwards(column);
+        }
+    }
+
+    /**
+     * Meant to be used with {@link #shiftOutwards(int, int)}
+     * Shifts all values NEEDED in certain column outwards by 1
+     * Resizes array if nessesary
+     * NEEDED - meaning all the values that need to be shifted in order to free up 1 cell closest to the Board
+     */
+    private void shiftOutwards(int column){
+        //TODO COMPLETE
+    }
+
+    /**
+     * Meant to be used with {@link #shift(IODirection, int, int)}
+    * Shifts all values NEEDED in certain column inwards by specified offset
+     *  Resizes array if nessesary
+     * NEEDED - meaning all the values that need to be shifted in order to free up offset cells
+    * @param offset number of cells for all to shift
+    */
+    private void shiftInwards(int column, int offset){
+        for (int i = 0; i < offset; i++) {
+            shiftInwards(column);
+        }
+    }
+
+    /**
+     * Meant to be used with {@link #shiftInwards(int, int)}
+     * Shifts all values NEEDED in certain column inwards by 1
+     * Resizes array if nessesary
+     * NEEDED - meaning all the values that need to be shifted in order to free up 1 cell closest to the Edge
+     */
+    private void shiftInwards(int column){
+        //TODO COMPLETE
+
     }
 
     /**
@@ -113,10 +216,45 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             LOGGER.warning("Skipping cause of invalid arguments!");
             return;
         }
-        //TODO: COMPLETE
+
+        int lastIndex = clues[column].length - 1;
+        //Is the length sufficient?
+        if (clues[column][lastIndex] != 0){
+            //Have to resize:
+
+            resizeToAddEnd(column, number);
+        } else {
+            //Append to the end:
+
+            int i = lastIndex - 1;
+            while(i >= 0){
+                if (clues[column][i] != 0){
+                    LOGGER.finer("Appending " + number + "to " + column + ". column, " + (i + 1) + ". index");
+                    clues[column][i + 1] = number;
+                    return;
+                }
+                i--;
+            }
+            LOGGER.finer("Appending " + number + "to " + column + ". column, " + 0 + ". index");
+            clues[column][0] = number;
+        }
+    }
+
+
+    /**
+     * Sets clue in specified position in INWARDS direction to be certain number
+     * @param number the clue
+     */
+    public void setClue(int column, int index, int number) {
+
+            setClueInwards(column, index, number);
 
     }
 
+    /**
+     * Sets clue in specified position and direction to be certain number
+     * @param number the clue
+     */
     public void setClue(IODirection dir, int column, int index, int number) {
         if (dir == IODirection.INWARDS) {
             setClueInwards(column, index, number);
@@ -163,10 +301,12 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
         }
 
         int length = clues[column].length;
+        LOGGER.fine("Resizing "+ column + ". column to the new length of " + (length + 1));
         int[] newColumn = new int[length + 1];
         newColumn[0] = toAdd;
         System.arraycopy(clues[column], 0, newColumn, 1, length);
         clues[column] = newColumn;
+        LOGGER.finer("Appending "+ toAdd + " to the " + column + ". column to the 0. position, shifting anything else outwards.");
         calculateMaxIndex();
     }
 
@@ -184,10 +324,13 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
             return;
         }
 
-        int[] newColumn = new int[clues[column].length + 1];
-        System.arraycopy(clues[column], 0, newColumn, 0, clues[column].length);
+        int length = clues[column].length;
+        LOGGER.fine("Resizing "+ column + ". column to the new length of " + (length + 1));
+        int[] newColumn = new int[length + 1];
+        System.arraycopy(clues[column], 0, newColumn, 0, length);
         newColumn[newColumn.length - 1] = toAdd;
         clues[column] = newColumn;
+        LOGGER.finer("Appending "+ toAdd + " to the " + column + ". column to the "+ (newColumn.length - 1) + ". position");
         calculateMaxIndex();
     }
 
