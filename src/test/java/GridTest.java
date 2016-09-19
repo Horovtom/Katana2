@@ -1,9 +1,6 @@
 import com.sun.rowset.internal.Row;
 import org.junit.Test;
-
-import javax.swing.text.html.HTMLDocument;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by lactosis on 14.9.16.
@@ -151,10 +148,61 @@ public class GridTest {
     @Test
     public  void isCompleted() throws  Exception{
         Grid grid = new Grid(4, 4, 2,2);
-        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 0, 0, 2);
+        //  |--11
+        //  |4111
+        //--|----
+        //-2|bbww
+        //12|bwbb
+        //-1|bwww
+        //12|bwbb
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 0, 0, 4);
         grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 1, 0, 1);
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 2, 0, 1);
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 2, 1, 1);
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 3, 0, 1);
+        grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 3, 1, 1);
 
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 0, 0, 2);
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 1, 0, 2);
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 1, 1, 1);
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 2, 0, 1);
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 3, 0, 2);
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 3, 1, 1);
+
+        assertFalse(grid.isCompleted());
+        //0:
+        grid.setCell(0, 0, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+        grid.setCell(0, 1, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+        //1:
+        grid.setCell(1, 0, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+        grid.setCell(1, 2, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+        grid.setCell(1, 3, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+        //2:
+        grid.setCell(2, 0, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+
+        //3:
+        grid.setCell(3, 0, CellState.BLACK);
+
+        assertFalse(grid.isCompleted());
+        grid.setCell(3, 1, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+        grid.setCell(3, 2, CellState.BLACK);
+
+        assertTrue(grid.isCompleted());
+        grid.setCell(3, 3, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+
+        grid.setCell(3, 2, CellState.WHITE);
+        assertFalse(grid.isCompleted());
 
     }
+
+
 
 }
