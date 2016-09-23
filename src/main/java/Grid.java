@@ -5,8 +5,16 @@ import java.util.logging.Logger;
  */
 public class Grid {
     private static final Logger LOGGER = Logger.getLogger(Grid.class.getName());
-
+    /**
+     * This indicates whether it is completed. <br>
+     * x: changed (since last check) <br>
+     * y: completed (before changed)
+     */
+    Vect2D<Boolean> completed = new Vect2D<Boolean>(false, false);
     private final Clues columns, rows;
+    /**
+     * grid[x][y]
+     */
     private CellState[][] grid;
 
     public Grid(int width, int height) {
@@ -39,7 +47,6 @@ public class Grid {
         return type == ClueType.COLUMN ? columns.getClue(dir, column, index) : rows.getClue(dir, column, index);
     }
 
-
     public int getClueColumn(int column, int index) {
         return getClue(ClueType.COLUMN, column, index);
     }
@@ -56,6 +63,7 @@ public class Grid {
      * Sets clue in specified ClueType in INWARDS direction
      */
     public void setClue(ClueType type, int column, int index, int value) {
+        completed.setX(true);
         Clues clue = (type == ClueType.ROW ? rows : columns);
         clue.setClue(IODirection.INWARDS, column, index, value);
     }
@@ -64,22 +72,36 @@ public class Grid {
      * Sets clue in specified ClueType and Direction
      */
     public void setClue(ClueType type, IODirection dir, int column, int index, int value) {
+        completed.setX(true);
         Clues clue = (type == ClueType.ROW ? rows : columns);
         clue.setClue(dir, column, index, value);
     }
 
     public void setClueColumn(int column, int index, int value) {
+        completed.setX(true);
         setClue(ClueType.COLUMN, column, index, value);
     }
 
     public void setClueRow(int column, int index, int value) {
+        completed.setX(true);
         setClue(ClueType.ROW, column, index, value);
     }
 
 
     public void setCell(int row, int column, CellState type) {
-        LOGGER.fine("Setting cell on: " + row + ", " + column + " from " + grid[row][column] + " to " + type);
-        grid[row][column] = type;
+        if (row < 0 || row >= grid[0].length){
+          LOGGER.severe("Row out of range: " + row);
+            return;
+        } else if (column < 0 || column >= grid.length){
+            LOGGER.severe("Column out of range: " + column);
+            return;
+        }
+
+        if (grid[row][column] != type) {
+            LOGGER.fine("Setting cell on: " + row + ", " + column + " from " + grid[row][column] + " to " + type);
+            grid[row][column] = type;
+            completed.setX(true);
+        }
     }
 
     /**
@@ -99,6 +121,7 @@ public class Grid {
                 grid[i][j] = CellState.WHITE;
             }
         }
+        completed.setX(true);
     }
 
     /**
@@ -108,6 +131,7 @@ public class Grid {
         eraseGrid();
         rows.clearClues();
         columns.clearClues();
+        completed = new Vect2D<Boolean>(false, false);
     }
 
     private boolean isCompleted_Rows(){
@@ -174,9 +198,18 @@ public class Grid {
         return true;
     }
 
+    /**
+     * @return true if this grid follows current Clues
+     */
     public boolean isCompleted() {
-        if (!isCompleted_Cols()) return false;
-        if (!isCompleted_Rows()) return false;
+        if (!completed.getX()) return completed.getY();
+
+        completed.setX(false);
+        if (!isCompleted_Cols() || !isCompleted_Rows()) {
+            completed.setY(false);
+            return false;
+        }
+        completed.setY(true);
         return true;
     }
 
@@ -184,6 +217,7 @@ public class Grid {
      * Adds specified value to the end in the specified direction of specified clues
      */
     public void appendClue(ClueType type, IODirection dir, int col, int value){
+        completed.setX(true);
         if (type == ClueType.ROW){
             rows.append(dir, col, value);
         } else  {
@@ -195,6 +229,7 @@ public class Grid {
      * Adds specified value to the end INWARDS direction of specified clues
      */
     public void appendClue(ClueType type, int col, int value){
+        completed.setX(true);
         appendClue(type, IODirection.INWARDS, col, value);
     }
 }

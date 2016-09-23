@@ -12,16 +12,32 @@ public class GridTest {
     Grid grid;
 
     /**
-     * Returns basic grid, which looks like this:
-     * <p>
-     * \\|1----
-     * \\|232--
-     * --|-----
-     * 12|■■□□□
-     * -3|··□□□
-     * -2|××□□□
-     * --|□□□□□
-     * -1|□□□□□
+     * <table rules="all">
+     *   <tr>
+     *       <th>0:</th> <th>1:</th> <th>2:</th> <th>3:</th> <th>4:</th> <th>5:</th> <th>6:</th>
+     *   </tr>
+     *   <tr>
+     *      <td></td> <td></td> <td>1</td> <td></td> <td></td> <td></td> <td></td>
+     *   </tr>
+     *   <tr>
+     *      <td></td> <td></td> <td>2</td> <td>3</td> <td>2</td> <td></td> <td></td>
+     *   </tr>
+     *   <tr>
+     *      <td>1</td> <td>2</td> <td bgcolor="#000000"></td> <td bgcolor="#000000"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td>
+     *   </tr>
+     *   <tr>
+     *      <td></td> <td>3</td> <td>•</td> <td>•</td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td>
+     *   </tr>
+     *   <tr>
+     *      <td></td> <td>2</td> <td>X</td> <td>X</td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td>
+     *   </tr>
+     *   <tr>
+     *      <td></td> <td></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td>
+     *   </tr>
+     *   <tr>
+     *      <td></td> <td>1</td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td>
+     *   </tr>
+     * </table>
      */
     private Grid getBasicGrid() {
         Grid grid = new Grid(5, 5, 2, 2);
@@ -239,7 +255,7 @@ public class GridTest {
 
     /**
      * Uses:
-     * <table summary="">
+     * <table>
      * <tr>
      * <td></td><td></td><td></td><td>2</td><td>2</td><td>3</td><td>1</td><td>2</td>
      * </tr>

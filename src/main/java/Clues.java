@@ -2,6 +2,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
+
 /**
  * Clues class, which is defining one set of clues in the Katana.
  * Can be iterated over, stores values in 2-d array. First index is "Column" (defines the row of Katana), second index is "Index" (defines the individual numbers in specified Column)
@@ -9,19 +10,59 @@ import java.util.logging.Logger;
  * <p>
  * Example:    <br>
  * 3x3 Katana grid with 2 clues on each row:
- * <p>
- * __|___    <br>
- * __|111   <br>
- * ______   <br>
- * 11|■□■   <br>
- * __|□□□   <br>
- * _1|□■□   <br>
- * <p>
+ * <table>
+ *   <tr>
+ *      <td></td> <td></td> <td>0</td> <td>0</td> <td>0</td>
+ *   </tr>
+ *   <tr>
+ *      <td></td> <td></td> <td>1</td> <td>1</td> <td>1</td>
+ *   </tr>
+ *   <tr>
+ *      <td>1</td> <td>1</td> <td bgcolor="#000000"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#000000"></td>
+ *   </tr>
+ *   <tr>
+ *      <td>0</td> <td>0</td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#FFFFFF"></td>
+ *   </tr>
+ *   <tr>
+ *      <td>0</td> <td>1</td> <td bgcolor="#FFFFFF"></td> <td bgcolor="#000000"></td> <td bgcolor="#FFFFFF"></td>
+ *   </tr>
+ * </table>
+ * <br>
  * For the rows Clues it is indexed as follows:
+ *
  * <p>
- * [0,1] [0,0] |   <br>
- * [1,1] [1,0] |   <br>
- * [2,1] [2,0] |   <br>
+ *     [column]<br>
+ * <table>
+ *     <tr>
+ *         <td>[0]</td><td>[0]</td>
+ *     </tr>
+ *     <tr>
+ *         <td>[1]</td><td>[1]</td>
+ *     </tr>
+ *     <tr>
+ *         <td>[2]</td><td>[2]</td>
+ *     </tr>
+ * </table>
+ *
+ * So the whole table looks like this (indexed):
+ *
+ * <table>
+ *   <tr>
+ *      <td></td> <td></td> <td>0</td> <td>1</td> <td>2</td>
+ *   </tr>
+ *   <tr>
+ *      <td></td> <td></td> <td>0</td> <td>1</td> <td>2</td>
+ *   </tr>
+ *   <tr>
+ *      <td>0</td> <td>0</td> <td>[0;0]</td> <td>[1;0]</td> <td>[2;0]</td>
+ *   </tr>
+ *   <tr>
+ *      <td>1</td> <td>1</td> <td>[0;1]</td> <td>[1;1]</td> <td>[2;1]</td>
+ *   </tr>
+ *   <tr>
+ *      <td>2</td> <td>2</td> <td>[0;2]</td> <td>[1;2]</td> <td>[2;2]</td>
+ *   </tr>
+ * </table>
  */
 public class Clues implements Iterable<Integer>, Iterator<Integer> {
     private static final Logger LOGGER = Logger.getLogger(Clues.class.getName());
@@ -174,9 +215,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
                 if (!foundValue) continue;
                 //There is a hole here!
                 //Shift all values OUTWARDS going: (->)
-                for (int j = i; j > 0; j--){
-                    clues[column][j] = clues[column][j - 1];
-                }
+                System.arraycopy(clues[column], 0, clues[column], 1, i);
                 clues[column][0] = 0;
                 return;
             } else {
@@ -218,9 +257,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
                 if (!foundValue) continue;
                 //Here is a hole!
                 //Shift all values INWARDS going: (<-)
-                for(int j = i; j < lastIndex; j++){
-                    clues[column][j] = clues[column][ j + 1];
-                }
+                System.arraycopy(clues[column], i + 1, clues[column], i, lastIndex - i);
                 clues[column][lastIndex] = 0;
                 return;
             } else foundValue = true;
