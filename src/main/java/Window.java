@@ -9,8 +9,10 @@ import java.awt.event.MouseListener;
  * Created by Hermes235 on 23.9.2016.
  */
 public class Window {
-    JFrame frame;
-    Application application;
+
+    private JFrame frame;
+    private Application application;
+    private float scale = 1;
 
     public Window(Application application) {
         this.application = application;
@@ -61,6 +63,22 @@ public class Window {
         }
     }
 
+    /**
+     * @return width of the frame
+     */
+    public int getWidth(){
+        return frame.getWidth();
+    }
+
+    /**
+     * @return height of the frame
+     */
+    public int getHeight(){
+        return frame.getHeight();
+    }
+
+
+
     private class MouseComponent extends JComponent implements MouseListener {
         public MouseComponent(Window window) {
             super();
@@ -87,6 +105,27 @@ public class Window {
         public void mouseExited(MouseEvent e) {
 
         }
+    }
+
+    /**
+     * Draws the grid on the window
+     */
+    public void draw(){
+        if (!application.isGameRunning()) return;
+
+        Vect2D<Integer> borderOffset = new Vect2D<Integer>(100, 100);
+
+        //Calculate cellSize
+        int gridWidth = application.getGridWidth();
+        int gridHeight = application.getGridHeight();
+        int columnHeight = application.getColumnCluesMaxHeight();
+        int rowHeight = application.getRowCluesMaxHeight();
+
+        int totalTableWidth = gridWidth + rowHeight;
+        int totalTableHeight = gridHeight + columnHeight;
+
+        //TODO: COMPLETE (Continue here)
+
     }
 
 }

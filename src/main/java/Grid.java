@@ -87,7 +87,6 @@ public class Grid {
         setClue(ClueType.ROW, column, index, value);
     }
 
-
     public void setCell(int row, int column, CellState type) {
         if (row < 0 || row >= grid.length){
           LOGGER.severe("Row out of range: " + row);
@@ -231,5 +230,36 @@ public class Grid {
     public void appendClue(ClueType type, int col, int value){
         completed.setX(true);
         appendClue(type, IODirection.INWARDS, col, value);
+    }
+
+
+    /**
+     * @return the width of GRID of Cels ({@linkplain CellState})
+     */
+    public int getGridWidth(){
+        return grid.length;
+    }
+
+    /**
+     * @return the height of GRID of Cels ({@linkplain CellState})
+     */
+    public int getGridHeight(){
+        return grid[0].length;
+    }
+
+    /**
+     * @return the maximum height of column clues
+     */
+    public int getColumnCluesMaxHeight() {
+        columns.calculateRealMaxIndex();
+        return columns.getMaxIndex();
+    }
+
+    /**
+     * @return the maximum height of row clues
+     */
+    public int getRowCluesMaxHeight(){
+        rows.calculateRealMaxIndex();
+        return columns.getMaxIndex();
     }
 }
