@@ -61,7 +61,7 @@ public class GridTest {
         grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 0, 0, 2);
         grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 0, 1, 1);
         grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 1, 0, 3);
-        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 2, 1, 2);
+        grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 2, 0, 2);
         grid.setClue(ClueType.ROW, IODirection.OUTWARDS, 4, 0, 1);
         return grid;
     }
@@ -69,21 +69,21 @@ public class GridTest {
     @Test
     public void getClue() throws Exception {
         grid = getBasicGrid();
-        assertEquals(1, grid.getClue(ClueType.COLUMN, 0, 1));
-        assertEquals(2, grid.getClue(ClueType.COLUMN, 0, 0));
-        assertEquals(3, grid.getClue(ClueType.COLUMN, 1, 0));
-        assertEquals(0, grid.getClue(ClueType.COLUMN, 1, 1));
-        assertEquals(2, grid.getClue(ClueType.COLUMN, 2, 0));
-        assertEquals(0, grid.getClue(ClueType.COLUMN, 3, 0));
-        assertEquals(0, grid.getClue(ClueType.COLUMN, 4, 0));
+        assertEquals(1, grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, 0, 1));
+        assertEquals(2, grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, 0, 0));
+        assertEquals(3, grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, 1, 0));
+        assertEquals(0, grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, 1, 1));
+        assertEquals(2, grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, 2, 0));
+        assertEquals(0, grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, 3, 0));
+        assertEquals(0, grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, 4, 0));
 
-        assertEquals(1, grid.getClue(ClueType.ROW, 0, 1));
-        assertEquals(2, grid.getClue(ClueType.ROW, 0, 0));
-        assertEquals(3, grid.getClue(ClueType.ROW, 1, 0));
-        assertEquals(0, grid.getClue(ClueType.ROW, 1, 1));
-        assertEquals(2, grid.getClue(ClueType.ROW, 2, 0));
-        assertEquals(0, grid.getClue(ClueType.ROW, 3, 0));
-        assertEquals(1, grid.getClue(ClueType.ROW, 4, 0));
+        assertEquals(1, grid.getClue(ClueType.ROW,IODirection.OUTWARDS, 0, 1));
+        assertEquals(2, grid.getClue(ClueType.ROW,IODirection.OUTWARDS, 0, 0));
+        assertEquals(3, grid.getClue(ClueType.ROW,IODirection.OUTWARDS, 1, 0));
+        assertEquals(0, grid.getClue(ClueType.ROW,IODirection.OUTWARDS, 1, 1));
+        assertEquals(2, grid.getClue(ClueType.ROW,IODirection.OUTWARDS, 2, 0));
+        assertEquals(0, grid.getClue(ClueType.ROW,IODirection.OUTWARDS, 3, 0));
+        assertEquals(1, grid.getClue(ClueType.ROW,IODirection.OUTWARDS, 4, 0));
     }
 
 

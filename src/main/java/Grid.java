@@ -89,10 +89,10 @@ public class Grid {
 
 
     public void setCell(int row, int column, CellState type) {
-        if (row < 0 || row >= grid[0].length){
+        if (row < 0 || row >= grid.length){
           LOGGER.severe("Row out of range: " + row);
             return;
-        } else if (column < 0 || column >= grid.length){
+        } else if (column < 0 || column >= grid[0].length){
             LOGGER.severe("Column out of range: " + column);
             return;
         }
