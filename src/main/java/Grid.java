@@ -10,7 +10,7 @@ public class Grid {
     private CellState[][] grid;
 
     public Grid(int width, int height) {
-        grid = new CellState[width][height];
+        grid = new CellState[height][width];
         eraseGrid();
         columns = new Clues(width, 2);
         rows = new Clues(height, 2);
@@ -18,7 +18,7 @@ public class Grid {
     }
 
     public Grid(int width, int height, int columnClues, int rowClues) {
-        grid = new CellState[width][height];
+        grid = new CellState[height][width];
         eraseGrid();
         columns = new Clues(width, columnClues);
         rows = new Clues(height, rowClues);
