@@ -110,8 +110,7 @@ public class Grid {
         columns.clearClues();
     }
 
-    public boolean isCompleted() {
-        //Columns
+    private boolean isCompleted_Rows(){
         for (int i = 0; i < rows.getColumns(); i++) {
             rows.setCurrCol(i);
             int current = 0;
@@ -131,18 +130,20 @@ public class Grid {
                     counter++;
                     current++;
                     if (counter > clue) return false;
-                    if (current >= grid[i].length) return false;
+                    if (current > grid[i].length - 1) break;
                 }
 
                 if (counter != clue) return false;
             }
-            while(current < grid[i].length){
+            while(current < grid[i].length - 1){
                 current++;
                 if (grid[i][current] == CellState.BLACK) return false;
             }
         }
+        return true;
+    }
 
-        //Rows:
+    private boolean isCompleted_Cols(){
         for (int i = 0; i < columns.getColumns(); i++) {
             int current = 0;
             columns.setCurrCol(i);
@@ -160,16 +161,40 @@ public class Grid {
                     counter++;
                     current++;
                     if (counter > clue) return false;
-                    if (current >= grid.length) return false;
+                    if (current > grid.length - 1) break;
                 }
 
                 if (counter != clue) return false;
             }
-            while(current < grid.length){
+            while(current < grid.length - 1){
                 current++;
                 if (grid[current][i] == CellState.BLACK) return false;
             }
         }
         return true;
+    }
+
+    public boolean isCompleted() {
+        if (!isCompleted_Cols()) return false;
+        if (!isCompleted_Rows()) return false;
+        return true;
+    }
+
+    /**
+     * Adds specified value to the end in the specified direction of specified clues
+     */
+    public void appendClue(ClueType type, IODirection dir, int col, int value){
+        if (type == ClueType.ROW){
+            rows.append(dir, col, value);
+        } else  {
+            columns.append(dir, col, value);
+        }
+    }
+
+    /**
+     * Adds specified value to the end INWARDS direction of specified clues
+     */
+    public void appendClue(ClueType type, int col, int value){
+        appendClue(type, IODirection.INWARDS, col, value);
     }
 }

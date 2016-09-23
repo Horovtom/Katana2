@@ -32,18 +32,17 @@ public class GridTest {
 
         //Set Clues
         //-------Cols
-        grid.setClue(ClueType.COLUMN, 0, 0, 2);
-        grid.setClue(ClueType.COLUMN, 0, 1, 1);
-        grid.setClue(ClueType.COLUMN, 1, 0, 3);
-        grid.setClue(ClueType.COLUMN, 2, 0, 2);
-        grid.setClue(ClueType.COLUMN, 2, 1, 0);
+        grid.setClue(ClueType.COLUMN,IODirection.OUTWARDS,  0, 0, 2);
+        grid.setClue(ClueType.COLUMN,IODirection.OUTWARDS, 0, 1, 1);
+        grid.setClue(ClueType.COLUMN,IODirection.OUTWARDS, 1, 0, 3);
+        grid.setClue(ClueType.COLUMN,IODirection.OUTWARDS, 2, 0, 2);
 
         //--------Rows
-        grid.setClue(ClueType.ROW, 0, 0, 2);
-        grid.setClue(ClueType.ROW, 0, 1, 1);
-        grid.setClue(ClueType.ROW, 1, 0, 3);
-        grid.setClue(ClueType.ROW, 2, 1, 2);
-        grid.setClue(ClueType.ROW, 4, 0, 1);
+        grid.setClue(ClueType.ROW,IODirection.OUTWARDS, 0, 0, 2);
+        grid.setClue(ClueType.ROW,IODirection.OUTWARDS, 0, 1, 1);
+        grid.setClue(ClueType.ROW,IODirection.OUTWARDS, 1, 0, 3);
+        grid.setClue(ClueType.ROW,IODirection.OUTWARDS, 2, 1, 2);
+        grid.setClue(ClueType.ROW,IODirection.OUTWARDS, 4, 0, 1);
         return grid;
     }
 
@@ -83,7 +82,16 @@ public class GridTest {
     }
 
 
-    //TODO: IMPLEMENT IT FOR THE IO TYPES
+    @Test
+    public void getCluesIO() throws Exception {
+        grid = getBasicGrid();
+        assertEquals(1, grid.getClue(ClueType.COLUMN, IODirection.INWARDS, 0, 0));
+        assertEquals(2, grid.getClue(ClueType.COLUMN, IODirection.INWARDS, 0, 1));
+        assertEquals(3, grid.getClue(ClueType.COLUMN, IODirection.INWARDS, 1, 0));
+        assertEquals(2, grid.getClue(ClueType.COLUMN, IODirection.INWARDS, 2, 0));
+        assertEquals(1, grid.getClue(ClueType.ROW, IODirection.OUTWARDS, 4, 0));
+    }
+
     @Test
     public void getClues() throws Exception {
         grid = getBasicGrid();
@@ -146,7 +154,7 @@ public class GridTest {
     }
 
     @Test
-    public  void isCompleted() throws  Exception{
+    public  void isCompleted1() throws  Exception{
         Grid grid = new Grid(4, 4, 2,2);
         //  |--11
         //  |4111
@@ -190,16 +198,22 @@ public class GridTest {
         grid.setCell(3, 0, CellState.BLACK);
 
         assertFalse(grid.isCompleted());
-        grid.setCell(3, 1, CellState.BLACK);
-        assertFalse(grid.isCompleted());
         grid.setCell(3, 2, CellState.BLACK);
+        assertFalse(grid.isCompleted());
+        grid.setCell(3, 3, CellState.BLACK);
 
         assertTrue(grid.isCompleted());
-        grid.setCell(3, 3, CellState.BLACK);
+        grid.setCell(3, 3, CellState.WHITE);
         assertFalse(grid.isCompleted());
 
         grid.setCell(3, 2, CellState.WHITE);
         assertFalse(grid.isCompleted());
+    }
+
+    @Test
+    public void isCompleted2(){
+        Grid grid = new Grid(5,3,1,1);
+
 
     }
 
