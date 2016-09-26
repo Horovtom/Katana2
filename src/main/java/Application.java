@@ -67,5 +67,25 @@ public class Application {
         return game.getGridHeight();
     }
 
+    public CellState getGrid(int x, int y){
+        if (!isGameRunning()) return null;
+        return game.getGrid(x, y);
 
+    }
+
+    /**
+     * @return clue on specified position indexed OUTWARDS (skipping)
+     */
+    public int getColumnClue(int column, int index){
+        if (!isGameRunning()) return 0;
+        return game.getColumnClue(column, index);
+    }
+
+    /**
+     * @return clue on specified position indexed OUTWARDS (skipping)
+     */
+    public int getRowClue(int row, int index){
+        if (!isGameRunning()) return 0;
+        return game.getRowClue(row, index);
+    }
 }

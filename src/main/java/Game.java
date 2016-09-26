@@ -37,4 +37,22 @@ public class Game {
     public int getRowCluesMaxHeight(){
         return grid.getRowCluesMaxHeight();
     }
+
+    public CellState getGrid(int x, int y) {
+        return grid.getCell(y, x);
+    }
+
+    /**
+     * @return clue on specified position indexed OUTWARDS (skipping).
+     */
+    public int getColumnClue(int column, int index) {
+        return grid.getClue(ClueType.COLUMN,IODirection.OUTWARDS, column, index);
+    }
+
+    /**
+     * @return clue on speicified position indexed OUTWARDS (skipping)
+     */
+    public int getRowClue(int row, int index){
+        return grid.getClue(ClueType.ROW, IODirection.OUTWARDS, row, index);
+    }
 }
