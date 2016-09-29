@@ -40,6 +40,23 @@ public class Window {
         frame.setVisible(true);
     }
 
+    /**
+     * Accepts FORM coordiantes (pixels)
+     *
+     * @return null if coordinates are not in the grid area, otherwise the GRID coordinates
+     */
+    private Vect2D<Integer> getGridCoords(int x, int y) {
+        int gridX = x - borderOffset.getX();
+        int gridY = y - borderOffset.getY();
+        if (gridX < 0 || gridY < 0) return null;
+
+        int maxGridX = application.getGridWidth() * cellSize;
+        int maxGridY = application.getGridHeight() * cellSize;
+        if (gridX > maxGridX || gridY > maxGridY) return null;
+
+        return new Vect2D<Integer>((int) Math.floor(gridX / cellSize), (int) Math.floor(gridY / cellSize));
+    }
+
     private JMenuBar createMenuBar() {
         JMenuBar menubar = new JMenuBar();
 
@@ -87,91 +104,18 @@ public class Window {
         return frame.getHeight();
     }
 
+    /**
+     * Shows a dialog form, for creation of a new game
+     */
+    private void invokeNewGameDialog(){
 
-    private class MouseComponent extends JComponent implements MouseListener {
-        public MouseComponent(Window window) {
-            super();
-        }
+    }
 
-
-        public void mouseClicked(MouseEvent arg0) {
-            System.out.println("Click! " + arg0.getX() + ", " + arg0.getY());
-
-        }
-
-        public void mousePressed(MouseEvent e) {
-            if (!editing) {
-                Vect2D gridCoords = getGridCoords(e.getX(), e.getY());
-                if (gridCoords != null) {
-                    LOGGER.fine("Started pulling at: " + gridCoords.getX() + ", " + gridCoords.getY());
-                    startMousePress = gridCoords;
-                }
-            }
-        }
-
-        public void mouseReleased(MouseEvent e) {
-            if (!editing) {
-                if (startMousePress != null) {
-                    Vect2D<Integer> gridCoords = getGridCoords(e.getX(), e.getY());
-                    if (gridCoords != null) {
-                        if (gridCoords.getX() - startMousePress.getX() > gridCoords.getY() - startMousePress.getY()) {
-                            int min = Math.min(gridCoords.getX(), startMousePress.getX());
-                            int max = Math.max(gridCoords.getX(), startMousePress.getX());
-                            //Drag in horizontal direction
-                            LOGGER.fine("Clicking cells from: " + new Vect2D<Integer>(min, startMousePress.getY()).toString() + " " +
-                                    "to: " + new Vect2D<Integer>(max, startMousePress.getY()).toString());
-                            for (int i = min; i <= max; i++) {
-                                gridCellClicked(i, startMousePress.getY());
-                            }
-                        } else {
-                            //Drag in vertical direction
-                            int min = Math.min(gridCoords.getY(), startMousePress.getY());
-                            int max = Math.max(gridCoords.getY(), startMousePress.getY());
-                            LOGGER.fine("Clicking cells from: " + new Vect2D<Integer>(startMousePress.getX(), min).toString() + " " +
-                                    "to: " + new Vect2D<Integer>(startMousePress.getX(), max).toString());
-                            for (int i = min; i <= max; i++) {
-                                gridCellClicked(startMousePress.getX(), i);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-         * Accepts FORM coordiantes (pixels)
-         *
-         * @return null if coordinates are not in the grid area, otherwise the GRID coordinates
-         */
-        private Vect2D<Integer> getGridCoords(int x, int y) {
-            //TODO: Complete
-
-            int gridX = x - borderOffset.getX();
-            int gridY = y - borderOffset.getY();
-            if (gridX < 0 || gridY < 0) return null;
-
-            int maxGridX = application.getGridWidth() * cellSize;
-            int maxGridY = application.getGridHeight() * cellSize;
-            if (gridX > maxGridX || gridY > maxGridY) return null;
-
-            
-            return null;
-        }
-
-        /**
-         * Cycles through CellStates on clicked cell
-         */
-        private void gridCellClicked(int x, int y) {
-            //TODO: Complete
-        }
-
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        public void mouseExited(MouseEvent e) {
-
-        }
+    /**
+     * Cycles through CellStates on clicked cell
+     */
+    private void gridCellClicked(int x, int y) {
+        //TODO: Complete
     }
 
     /**
@@ -284,4 +228,66 @@ public class Window {
         //TODO: COMPLETE
     }
 
+    private class MouseComponent extends JComponent implements MouseListener {
+        public MouseComponent(Window window) {
+            super();
+        }
+
+        public void mouseClicked(MouseEvent arg0) {
+            System.out.println("Click! " + arg0.getX() + ", " + arg0.getY());
+
+        }
+
+        public void mousePressed(MouseEvent e) {
+            if (!application.isGameRunning()){
+                invokeNewGameDialog();
+                return;
+            }
+
+            if (!editing) {
+                Vect2D<Integer> gridCoords = getGridCoords(e.getX(), e.getY());
+                if (gridCoords != null) {
+                    LOGGER.fine("Started pulling at: " + gridCoords.getX() + ", " + gridCoords.getY());
+                    startMousePress = gridCoords;
+                }
+            }
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            if (!editing) {
+                if (startMousePress != null) {
+                    Vect2D<Integer> gridCoords = getGridCoords(e.getX(), e.getY());
+                    if (gridCoords != null) {
+                        if (gridCoords.getX() - startMousePress.getX() > gridCoords.getY() - startMousePress.getY()) {
+                            int min = Math.min(gridCoords.getX(), startMousePress.getX());
+                            int max = Math.max(gridCoords.getX(), startMousePress.getX());
+                            //Drag in horizontal direction
+                            LOGGER.fine("Clicking cells from: " + new Vect2D<Integer>(min, startMousePress.getY()).toString() + " " +
+                                    "to: " + new Vect2D<Integer>(max, startMousePress.getY()).toString());
+                            for (int i = min; i <= max; i++) {
+                                gridCellClicked(i, startMousePress.getY());
+                            }
+                        } else {
+                            //Drag in vertical direction
+                            int min = Math.min(gridCoords.getY(), startMousePress.getY());
+                            int max = Math.max(gridCoords.getY(), startMousePress.getY());
+                            LOGGER.fine("Clicking cells from: " + new Vect2D<Integer>(startMousePress.getX(), min).toString() + " " +
+                                    "to: " + new Vect2D<Integer>(startMousePress.getX(), max).toString());
+                            for (int i = min; i <= max; i++) {
+                                gridCellClicked(startMousePress.getX(), i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
 }

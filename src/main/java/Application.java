@@ -17,7 +17,7 @@ public class Application {
      * @return whether there is a loaded game in the application´s memory
      */
     public boolean isGameRunning(){
-        return game == null;
+        return game != null;
     }
 
     /**
