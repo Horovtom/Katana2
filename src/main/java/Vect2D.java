@@ -24,4 +24,11 @@ public class Vect2D<T> {
     public void setY(T y) {
         this.y = y;
     }
+
+    @Override
+    public String toString(){
+	StringBuider builder = new StringBuilder("[");
+	builder.append(x).append(", ").append(y).append("]");
+	return builder.toString();
+    }
 }

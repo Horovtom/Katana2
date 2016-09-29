@@ -9,7 +9,12 @@ import java.awt.event.MouseListener;
  * Created by Hermes235 on 23.9.2016.
  */
 public class Window {
-
+    /**
+     * This variable is used when not editing. Marks the GRID position of the mouse when mouse was pressed. 
+     * Used for mark by pulling multiple cells
+     */
+    private Vect2D startMousePress = null;
+    private boolean editing = false;
     private JFrame frame;
     private Application application;
     private int cellSize = 1;
@@ -92,12 +97,56 @@ public class Window {
         }
 
         public void mousePressed(MouseEvent e) {
-
+	    if (!editing){
+		Vect2D gridCoords = getGridCoords(e.getX(), e.getY());
+		if (gridCoords != null) {
+		    LOGGER.fine("Started pulling at: " + gridCoords.getX() + ", " + gridCoords.getY());
+		    startGridCoords = gridCoords;
+		}
+	    }
         }
 
         public void mouseReleased(MouseEvent e) {
-
+	    if (!editing){
+		if (startGridCoords){
+		    Vect2D gridCoords = getGridCoords(e.getX(), e.getY());
+		    if (gridCoords){
+			if (gridCoords.getX() - startGridCoords.getX() > gridCoords.getY() - startGridCoords.getY()){
+			    int min = Math.min(gridCoords.getX(), startGridCoords.getX());
+			    int max = Math.max(gridCoords.getX(), startGridCoords.getX());
+			    //Drag in horizontal direction
+			    LOGGER.fine("Clicking cells from: " + new Vect2D(min, startGridCoords.getY()).toString() + " to: " + new Vect2D(max, startGridCoords.getY()).toString());
+			    for (int i = min; i <= max; i++){
+				gridCellClicked(i, startGridCoords.getY());
+			    }
+			} else {
+			    //Drag in vertical direction
+			    int min = Math.min(gridCoords.getY(), startGridCoords.getY());
+			    int max = Math.max(gridCoords.getY(), startGridCoords.getY());
+			    LOGGER.fine("Clicking cells from: " + new Vect2D(startGridCoords.getX(), min).toString() + " to: " + new Vect2D(startGridCoords.getX(), max).toString());
+			    for (int i = min; i <= max; i++){
+				gridCellClicked(startGridCOords.getX(), i);
+			    }
+			}
+		    }
+		}
+	    }
         }
+
+	/**
+	 * Accepts FORM coordiantes (pixels)
+	 * @return: null if coordinates are not in the grid area, otherwise the GRID coordinates
+	 */
+	private Vect2D getGridCoords(int x, int y){
+	    //TODO: Complete
+	}
+	
+	/**
+	 * Cycles through CellStates on clicked cell
+	 */
+	private void gridCellClicked(int x, int y){
+	    //TODO: Complete
+	}
 
         public void mouseEntered(MouseEvent e) {
 
@@ -173,7 +222,7 @@ public class Window {
                     //Draw row clues
                     int row = y - columnHeight;
                     drawNumber(drawX, drawY, cellSize, application.getRowClue(row, rowWidth - x));
-
+		    
                 } else if (x > rowWidth && y <= columnHeight){
                     //Draw column clues
                     drawNumber(drawX, drawY, cellSize, application.getColumnClue(x - rowWidth, columnHeight - y));
