@@ -25,10 +25,8 @@ public class Vect2D<T> {
         this.y = y;
     }
 
-    @Override
-    public String toString(){
-	StringBuider builder = new StringBuilder("[");
-	builder.append(x).append(", ").append(y).append("]");
-	return builder.toString();
-    }
+//    @Override
+//    public String toString(){
+//        return "[" + x + ", " + y + "]";
+//    }
 }
