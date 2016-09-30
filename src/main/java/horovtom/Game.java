@@ -1,5 +1,7 @@
+package horovtom;
+
 /**
- * Graphics/Game wrapper
+ * horovtom.Graphics/horovtom.Game wrapper
  */
 public class Game {
     Grid grid;

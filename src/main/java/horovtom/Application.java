@@ -1,3 +1,7 @@
+package horovtom;
+
+import horovtom.Graphics.Window;
+
 /**
  * Created by Hermes235 on 23.9.2016.
  */

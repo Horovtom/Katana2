@@ -1,12 +1,14 @@
+package horovtom;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 
 /**
- * Clues class, which is defining one set of clues in the Katana.
+ * horovtom.Clues class, which is defining one set of clues in the Katana.
  * Can be iterated over, stores values in 2-d array. First index is "Column" (defines the row of Katana), second index is "Index" (defines the individual numbers in specified Column)
- * Clues are stored in OUTWARDS direction by default.
+ * horovtom.Clues are stored in OUTWARDS direction by default.
  * <p>
  * Example:    <br>
  * 3x3 Katana grid with 2 clues on each row:
@@ -28,7 +30,7 @@ import java.util.logging.Logger;
  *   </tr>
  * </table>
  * <br>
- * For the rows Clues it is indexed as follows:
+ * For the rows horovtom.Clues it is indexed as follows:
  *
  * <p>
  *     [column]<br>
@@ -554,7 +556,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     }
 
     public void clearClues() {
-        LOGGER.info("Clearing all Clues from " + this);
+        LOGGER.info("Clearing all horovtom.Clues from " + this);
         for (int[] clue : clues) {
             for (int i = 0; i < clue.length; i++) {
                 clue[i] = 0;
@@ -767,7 +769,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     }
 
     /**
-     * Sets the array of Clues in specified col, direction
+     * Sets the array of horovtom.Clues in specified col, direction
      */
     public void setClues(IODirection dir, int column, int[] array) {
         if (dir == IODirection.INWARDS) {
@@ -778,7 +780,7 @@ public class Clues implements Iterable<Integer>, Iterator<Integer> {
     }
 
     /**
-     * Returns the array of Clues in specified col, direction
+     * Returns the array of horovtom.Clues in specified col, direction
      */
     public int[] getClues(IODirection dir, int column) {
         return dir == IODirection.INWARDS ? getCluesInwards(column) : getCluesOutwards(column);

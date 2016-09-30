@@ -1,3 +1,5 @@
+package horovtom;
+
 import java.util.logging.Logger;
 
 /**
@@ -60,7 +62,7 @@ public class Grid {
     }
 
     /**
-     * Sets clue in specified ClueType in INWARDS direction
+     * Sets clue in specified horovtom.ClueType in INWARDS direction
      */
     public void setClue(ClueType type, int column, int index, int value) {
         completed.setX(true);
@@ -69,7 +71,7 @@ public class Grid {
     }
 
     /**
-     * Sets clue in specified ClueType and Direction
+     * Sets clue in specified horovtom.ClueType and Direction
      */
     public void setClue(ClueType type, IODirection dir, int column, int index, int value) {
         completed.setX(true);
@@ -104,7 +106,7 @@ public class Grid {
     }
 
     /**
-     * Returns the current CellState of specified cell on the grid
+     * Returns the current horovtom.CellState of specified cell on the grid
      */
     public CellState getCell(int row, int column) {
         return grid[row][column];
@@ -198,7 +200,7 @@ public class Grid {
     }
 
     /**
-     * @return true if this grid follows current Clues
+     * @return true if this grid follows current horovtom.Clues
      */
     public boolean isCompleted() {
         if (!completed.getX()) return completed.getY();

@@ -1,5 +1,7 @@
-import com.sun.java.browser.plugin2.DOM;
-import com.sun.rowset.internal.Row;
+import horovtom.CellState;
+import horovtom.ClueType;
+import horovtom.Grid;
+import horovtom.IODirection;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -50,7 +52,7 @@ public class GridTest {
         grid.setCell(2, 0, CellState.CROSS);
         grid.setCell(2, 1, CellState.CROSS);
 
-        //Set Clues
+        //Set horovtom.Clues
         //-------Cols
         grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 0, 0, 2);
         grid.setClue(ClueType.COLUMN, IODirection.OUTWARDS, 0, 1, 1);

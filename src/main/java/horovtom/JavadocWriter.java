@@ -1,3 +1,5 @@
+package horovtom;
+
 import java.util.Scanner;
 
 /**

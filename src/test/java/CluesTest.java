@@ -1,7 +1,7 @@
+import horovtom.Clues;
+import horovtom.IODirection;
 import org.junit.Test;
 
-import java.io.OutputStreamWriter;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
@@ -13,7 +13,7 @@ public class CluesTest {
     private static final Logger LOGGER = Logger.getLogger(CluesTest.class.getName());
 
     /**
-     * Returns a Clues object which looks like this:
+     * Returns a horovtom.Clues object which looks like this:
      *
      * 213|
      * 11-|
@@ -71,14 +71,14 @@ public class CluesTest {
         //***
         //1-|
         clues.setClue(IODirection.INWARDS, 0, 0, 1);
-        assertEquals("/Clues.setClue(INWARDS) does not set the value/ or /Clues.getClue(INWARDS) does not read the value right/", 1, clues.getClue(IODirection.INWARDS, 0, 0));
-        assertEquals("Clues.setClue(INWARDS) did write to cell it should not have written to", 0, clues.getClue(IODirection.INWARDS, 0, 1));
-        assertEquals("Clues.getClue(OUTWARDS) does not skip empty spaces", 0, clues.getClue(IODirection.OUTWARDS, 0, 1));
+        assertEquals("/horovtom.Clues.setClue(INWARDS) does not set the value/ or /horovtom.Clues.getClue(INWARDS) does not read the value right/", 1, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals("horovtom.Clues.setClue(INWARDS) did write to cell it should not have written to", 0, clues.getClue(IODirection.INWARDS, 0, 1));
+        assertEquals("horovtom.Clues.getClue(OUTWARDS) does not skip empty spaces", 0, clues.getClue(IODirection.OUTWARDS, 0, 1));
 
         //***
         //13|
         clues.setClue(IODirection.OUTWARDS, 0, 0, 3);
-        assertEquals("/Clues.setClue(OUTWARDS) does not set the value/ or /Clues.getClue(OUTWARDS) does not read the value right/", 3, clues.getClue(IODirection.OUTWARDS, 0, 0));
+        assertEquals("/horovtom.Clues.setClue(OUTWARDS) does not set the value/ or /horovtom.Clues.getClue(OUTWARDS) does not read the value right/", 3, clues.getClue(IODirection.OUTWARDS, 0, 0));
 
     }
 
@@ -128,16 +128,16 @@ public class CluesTest {
         Clues clues = getBasicClues();
         clues.align();
 
-        assertEquals("Clues.align() did shift even the *** case!", 2, clues.getClue(IODirection.INWARDS, 0, 0));
-        assertEquals("Clues.align() did shift even the *** case!", 1, clues.getClue(IODirection.INWARDS, 0, 1));
-        assertEquals("Clues.align() did shift even the *** case!", 3, clues.getClue(IODirection.INWARDS, 0, 2));
+        assertEquals("horovtom.Clues.align() did shift even the *** case!", 2, clues.getClue(IODirection.INWARDS, 0, 0));
+        assertEquals("horovtom.Clues.align() did shift even the *** case!", 1, clues.getClue(IODirection.INWARDS, 0, 1));
+        assertEquals("horovtom.Clues.align() did shift even the *** case!", 3, clues.getClue(IODirection.INWARDS, 0, 2));
 
-        assertEquals("Clues.align() did not shift the **- case", 1, clues.getTrueClue(IODirection.OUTWARDS, 1, 0));
-        assertEquals("Clues.align() did not delete the shifted value of **- case", 0, clues.getTrueClue(IODirection.INWARDS, 1, 0));
+        assertEquals("horovtom.Clues.align() did not shift the **- case", 1, clues.getTrueClue(IODirection.OUTWARDS, 1, 0));
+        assertEquals("horovtom.Clues.align() did not delete the shifted value of **- case", 0, clues.getTrueClue(IODirection.INWARDS, 1, 0));
 
-        assertEquals("Clues.align() did not shift the *-* case", 2, clues.getTrueClue(IODirection.INWARDS, 2, 1));
-        assertEquals("Clues.align() shifted the 1 in 2-1 case", 1, clues.getTrueClue(IODirection.OUTWARDS, 2, 0));
-        assertEquals("Clues.align() did not delete the 2 in 2-1 case", 0, clues.getTrueClue(IODirection.INWARDS, 2, 0));
+        assertEquals("horovtom.Clues.align() did not shift the *-* case", 2, clues.getTrueClue(IODirection.INWARDS, 2, 1));
+        assertEquals("horovtom.Clues.align() shifted the 1 in 2-1 case", 1, clues.getTrueClue(IODirection.OUTWARDS, 2, 0));
+        assertEquals("horovtom.Clues.align() did not delete the 2 in 2-1 case", 0, clues.getTrueClue(IODirection.INWARDS, 2, 0));
 
     }
 
@@ -146,7 +146,7 @@ public class CluesTest {
         int[] array = new int[3];
 
         Clues clues = new Clues(2, 2);
-        assertEquals("MaxIndex is not set when Clues is initialized", 2, clues.getMaxIndex());
+        assertEquals("MaxIndex is not set when horovtom.Clues is initialized", 2, clues.getMaxIndex());
         clues.setClues(IODirection.INWARDS,1, array);
         assertEquals("MaxIndex is not refreshing when appending new array!", 3, clues.getMaxIndex());
         array = new int[5];
@@ -267,7 +267,7 @@ public class CluesTest {
     public void getClueInwards() throws Exception {
         Clues clues = getBasicClues();
 
-        assertTrue("Clues.getClueInwards() is wrong direction!", clues.getClue(IODirection.INWARDS,0, 0) == 2);
+        assertTrue("horovtom.Clues.getClueInwards() is wrong direction!", clues.getClue(IODirection.INWARDS,0, 0) == 2);
         assertEquals(2, clues.getClue(IODirection.INWARDS,0, 0));
         assertEquals(1, clues.getClue(IODirection.INWARDS,0, 1));
         assertEquals(3, clues.getClue(IODirection.INWARDS,0, 2));
@@ -293,7 +293,7 @@ public class CluesTest {
     public void getClueOutwards() throws Exception {
         Clues clues = getBasicClues();
 
-        assertTrue("Clues.getClueOutwards() is wrong direction!", clues.getClue(IODirection.OUTWARDS,0, 0) == 3);
+        assertTrue("horovtom.Clues.getClueOutwards() is wrong direction!", clues.getClue(IODirection.OUTWARDS,0, 0) == 3);
         assertEquals(3, clues.getClue(IODirection.OUTWARDS,0, 0));
         assertEquals(2, clues.getClue(IODirection.OUTWARDS,0, 2));
 
