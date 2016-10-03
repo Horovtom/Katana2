@@ -1,9 +1,3 @@
-package horovtom.Graphics;
-
-import horovtom.Application;
-import horovtom.CellState;
-import horovtom.Vect2D;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.logging.Logger;
+import Graphics.NewGameDialog;
 
 /**
  * Created by Hermes235 on 23.9.2016.
@@ -29,6 +24,7 @@ public class Window {
     private Application application;
     private int cellSize = 1;
     private int totalWidth = 0, totalHeight = 0;
+    private float scale = 1;
 
     public Window(Application application) {
         this.application = application;
@@ -113,15 +109,8 @@ public class Window {
      * Shows a dialog form, for creation of a new game
      */
     private void invokeNewGameDialog(){
-        NewGameDialog newGameFrame = new NewGameDialog(this);
-    }
-
-    public void createNewGame(int width, int height, int colClues, int rowClues){
-        application.createGame(width, height, colClues, rowClues);
-    }
-
-    public void closeNewGameFrame(){
-
+        JFrame frame = new JFrame();
+        frame.setContentPane(new NewGameDialog());
     }
 
     /**
@@ -159,7 +148,6 @@ public class Window {
         float cellSizeHeight = heightPixelsFree / totalHeight;
 
         float cellSizeFloat = Math.min(cellSizeWidth, cellSizeHeight);
-        float scale = 1;
         cellSizeFloat *= scale;
         cellSize = (int) Math.floor(cellSizeFloat);
 
