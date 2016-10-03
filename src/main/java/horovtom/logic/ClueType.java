@@ -1,4 +1,4 @@
-package horovtom;
+package horovtom.logic;
 
 /**
  * Created by lactosis on 14.9.16.

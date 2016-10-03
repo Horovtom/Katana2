@@ -1,4 +1,4 @@
-package horovtom;
+package horovtom.logic;
 
 import java.util.logging.Logger;
 

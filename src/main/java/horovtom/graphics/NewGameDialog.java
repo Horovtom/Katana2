@@ -1,4 +1,4 @@
-package horovtom.Graphics;
+package horovtom.graphics;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

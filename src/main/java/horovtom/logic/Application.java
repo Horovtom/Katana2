@@ -1,6 +1,6 @@
-package horovtom;
+package horovtom.logic;
 
-import horovtom.Graphics.Window;
+import horovtom.graphics.Window;
 
 /**
  * Created by Hermes235 on 23.9.2016.

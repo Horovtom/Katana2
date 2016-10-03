@@ -1,5 +1,5 @@
-import horovtom.Clues;
-import horovtom.IODirection;
+import horovtom.logic.Clues;
+import horovtom.logic.IODirection;
 import org.junit.Test;
 
 import java.util.logging.Logger;

@@ -1,7 +1,7 @@
-import horovtom.CellState;
-import horovtom.ClueType;
-import horovtom.Grid;
-import horovtom.IODirection;
+import horovtom.logic.CellState;
+import horovtom.logic.ClueType;
+import horovtom.logic.Grid;
+import horovtom.logic.IODirection;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

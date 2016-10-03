@@ -1,4 +1,4 @@
-package horovtom;
+package horovtom.logic;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

@@ -1,3 +1,9 @@
+package horovtom.graphics;
+
+import horovtom.logic.Application;
+import horovtom.logic.CellState;
+import horovtom.logic.Vect2D;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.logging.Logger;
-import Graphics.NewGameDialog;
 
 /**
  * Created by Hermes235 on 23.9.2016.
@@ -118,6 +123,10 @@ public class Window {
      */
     private void gridCellClicked(int x, int y) {
         //TODO: Complete
+    }
+
+    public void createNewGame(int width, int height, int colClues, int rowClues){
+        application.createGame(width, height, colClues, rowClues);
     }
 
     /**
