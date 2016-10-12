@@ -57,4 +57,11 @@ public class Game {
     public int getRowClue(int row, int index){
         return grid.getClue(ClueType.ROW, IODirection.OUTWARDS, row, index);
     }
+
+    /**
+     * Cycles CellTypes of the specified cell
+     */
+    public void cycleCell(int x, int y) {
+        grid.cycleCell(x, y);
+    }
 }

@@ -264,4 +264,11 @@ public class Grid {
         rows.calculateRealMaxIndex();
         return columns.getMaxIndex();
     }
+
+    /**
+     * Sets the cell on specified cell to the next state
+     */
+    public void cycleCell(int x, int y) {
+        grid[x][y] = grid[x][y].getNextState();
+    }
 }

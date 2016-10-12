@@ -92,4 +92,8 @@ public class Application {
         if (!isGameRunning()) return 0;
         return game.getRowClue(row, index);
     }
+
+    public void cellClicked(int x, int y){
+        game.cycleCell(x,y );
+    }
 }

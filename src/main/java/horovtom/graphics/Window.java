@@ -2,6 +2,7 @@ package horovtom.graphics;
 
 import horovtom.logic.Application;
 import horovtom.logic.CellState;
+import horovtom.logic.ClueType;
 import horovtom.logic.Vect2D;
 
 import javax.swing.*;
@@ -119,10 +120,17 @@ public class Window {
     }
 
     /**
-     * Cycles through CellStates on clicked cell
+     * Handles mouse clicks when clicked on cell
      */
     private void gridCellClicked(int x, int y) {
-        //TODO: Complete
+        application.cellClicked(x,y);
+    }
+
+    /**
+     * Handles mouse clicks when clicked on certain clues section
+     */
+    private void clueCellClicked(ClueType type, int x, int y){
+        //TODO: COMPLETE
     }
 
     public void createNewGame(int width, int height, int colClues, int rowClues){
