@@ -123,14 +123,14 @@ public class Window {
      * Handles mouse clicks when clicked on cell
      */
     private void gridCellClicked(int x, int y) {
-        application.cellClicked(x,y);
+        application.gridCellClicked(x,y);
     }
 
     /**
      * Handles mouse clicks when clicked on certain clues section
      */
     private void clueCellClicked(ClueType type, int x, int y){
-        //TODO: COMPLETE
+        application.clueCellClicked(type, x, y);
     }
 
     public void createNewGame(int width, int height, int colClues, int rowClues){

@@ -93,7 +93,11 @@ public class Application {
         return game.getRowClue(row, index);
     }
 
-    public void cellClicked(int x, int y){
+    public void gridCellClicked(int x, int y){
         game.cycleCell(x,y );
+    }
+
+    public void clueCellClicked(ClueType type, int x, int y) {
+        //TODO: COMPLETE
     }
 }
