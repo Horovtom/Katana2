@@ -93,10 +93,16 @@ public class Application {
         return game.getRowClue(row, index);
     }
 
+    /**
+     * Handles mouseClicks on grid cell
+     */
     public void gridCellClicked(int x, int y){
         game.cycleCell(x,y );
     }
 
+    /**
+     * Handles mouse  clicks on clue cell
+     */
     public void clueCellClicked(ClueType type, int x, int y) {
         //TODO: COMPLETE
     }
