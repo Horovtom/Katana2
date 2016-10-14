@@ -98,9 +98,8 @@ public class Window {
 
     /**
      * Invokes SaveGameDialog.
-     * @return path to .save file we want to save to, or null if user did not choose anything.
      */
-    public File invokeSaveGameDialog() {
+    public void invokeSaveGameDialog() {
         JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
         fileChooser.setDialogTitle("Save game");
         fileChooser.setFileFilter(new FileTypeFilter(".save", "Save file"));
@@ -109,13 +108,28 @@ public class Window {
             if (!file.getName().contains(".save")) {
                 LOGGER.fine("Does not contain .save, appending");
 
-                return new File(file.getAbsolutePath() + ".save");
+                application.saveGame(new File(file.getAbsolutePath() + ".save"));
             } else {
-                return file;
+                application.saveGame(file);
             }
         } else {
-            return null;
+            return;
         }
+
+    }
+
+    public void invokeLoadGameDialog(){
+        JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+        fileChooser.setDialogTitle("Load game");
+        fileChooser.setFileFilter(new FileTypeFilter(".save", "Save file"));
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+            File file = fileChooser.getSelectedFile();
+            if (!file.getName().contains(".save")){
+                LOGGER.warning("Does not contain .save. error!");
+            }
+        }
+
+        //TODO: Complete
 
     }
 

@@ -35,7 +35,7 @@ public class Application {
         System.exit(0);
     }
 
-    public void saveGame(String path){
+    public void saveGame(File path){
         //TODO: COMPLETE
     }
 
