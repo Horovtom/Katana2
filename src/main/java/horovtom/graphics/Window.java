@@ -8,6 +8,7 @@ import horovtom.logic.Vect2D;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -96,6 +97,29 @@ public class Window {
     }
 
     /**
+     * Invokes SaveGameDialog.
+     * @return path to .save file we want to save to, or null if user did not choose anything.
+     */
+    public File invokeSaveGameDialog() {
+        JFileChooser fileChooser = new JFileChooser(new File("c:\\"));
+        fileChooser.setDialogTitle("Save game");
+        fileChooser.setFileFilter(new FileTypeFilter(".save", "Save file"));
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            if (!file.getName().contains(".save")) {
+                LOGGER.fine("Does not contain .save, appending");
+
+                return new File(file.getAbsolutePath() + ".save");
+            } else {
+                return file;
+            }
+        } else {
+            return null;
+        }
+
+    }
+
+    /**
      * Called when user attempts to close the Frame
      */
     private void exitClicked() {
@@ -125,7 +149,7 @@ public class Window {
     /**
      * Shows a dialog form, for creation of a new game
      */
-    private void invokeNewGameDialog(){
+    private void invokeNewGameDialog() {
         JFrame frame = new NewGameDialog(this);
     }
 
@@ -133,17 +157,17 @@ public class Window {
      * Handles mouse clicks when clicked on cell
      */
     private void gridCellClicked(int x, int y) {
-        application.gridCellClicked(x,y);
+        application.gridCellClicked(x, y);
     }
 
     /**
      * Handles mouse clicks when clicked on certain clues section
      */
-    private void clueCellClicked(ClueType type, int x, int y){
+    private void clueCellClicked(ClueType type, int x, int y) {
         application.clueCellClicked(type, x, y);
     }
 
-    public void createNewGame(int width, int height, int colClues, int rowClues){
+    public void createNewGame(int width, int height, int colClues, int rowClues) {
         application.createGame(width, height, colClues, rowClues);
     }
 
@@ -265,7 +289,7 @@ public class Window {
         public void mouseClicked(MouseEvent arg0) {
             System.out.println("Click! " + arg0.getX() + ", " + arg0.getY());
             //Middle mouse click handler
-            if (arg0.getButton()==MouseEvent.BUTTON2){
+            if (arg0.getButton() == MouseEvent.BUTTON2) {
                 scale = 1;
             }
 
@@ -278,7 +302,7 @@ public class Window {
             }
 
             if (e.getButton() == MouseEvent.BUTTON2) return;
-            
+
             if (!editing) {
                 Vect2D<Integer> gridCoords = getGridCoords(e.getX(), e.getY());
                 if (gridCoords != null) {
@@ -329,15 +353,10 @@ public class Window {
         }
 
 
-
-
     }
 
     public static void main(String[] args) {
-        String s = "ahoj karle";
-        StringTokenizer st = new StringTokenizer(s, " ");
-        while (st.hasMoreTokens()){
-            System.out.println(st.nextToken());
-        }
+        Window window = new Window(null);
+        System.out.println(window.invokeSaveGameDialog().getAbsolutePath());
     }
 }

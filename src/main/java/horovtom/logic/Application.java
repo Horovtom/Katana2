@@ -1,6 +1,10 @@
 package horovtom.logic;
 
+import horovtom.graphics.FileTypeFilter;
 import horovtom.graphics.Window;
+
+import javax.swing.*;
+import java.io.File;
 
 /**
  * Created by Hermes235 on 23.9.2016.
@@ -32,8 +36,9 @@ public class Application {
     }
 
     public void saveGame(String path){
-        //TODO: Implement saveGame
+        //TODO: COMPLETE
     }
+
 
     public void loadGame(String path){
         //TODO: Implement loadGame
