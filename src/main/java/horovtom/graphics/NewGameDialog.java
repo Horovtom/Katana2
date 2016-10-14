@@ -105,6 +105,10 @@ public class NewGameDialog extends JFrame {
 
     private boolean isTextInRange(JFormattedTextField field, int minim, int maxim) {
         String text = field.getText();
+        if (text.equals("")) {
+            field.setText(String.valueOf(minim));
+            return false;
+        }
         int value = Integer.parseInt(text);
         if (value < minim){
             field.setText(String.valueOf(minim));

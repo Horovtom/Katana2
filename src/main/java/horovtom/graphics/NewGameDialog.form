@@ -80,7 +80,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="5"/>
+        </properties>
       </component>
       <component id="520eb" class="javax.swing.JFormattedTextField" binding="txtHeight">
         <constraints>
@@ -88,7 +90,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="5"/>
+        </properties>
       </component>
       <component id="1f6c8" class="javax.swing.JFormattedTextField" binding="txtRowClues">
         <constraints>
@@ -96,7 +100,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="1"/>
+        </properties>
       </component>
       <component id="777e" class="javax.swing.JFormattedTextField" binding="txtColumnClues">
         <constraints>
@@ -104,7 +110,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="1"/>
+        </properties>
       </component>
     </children>
   </grid>

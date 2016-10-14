@@ -7,10 +7,8 @@ import horovtom.logic.Vect2D;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 /**
@@ -40,6 +38,19 @@ public class Window {
         frame.requestFocus();
         Component mouseClick = new MouseComponent(this);
         frame.addMouseListener((MouseListener) mouseClick);
+        frame.addMouseWheelListener(new MouseWheelListener() {
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                if (e.getWheelRotation() < 0) {
+                    //Mouse wheel moved up!
+                    scale += 0.1;
+                } else if (e.getWheelRotation() > 0) {
+                    //Mouse wheel moved down!
+                    scale -= 0.1;
+                }
+            }
+
+
+        });
         //Temp:
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,8 +126,7 @@ public class Window {
      * Shows a dialog form, for creation of a new game
      */
     private void invokeNewGameDialog(){
-        JFrame frame = new JFrame();
-        frame.setContentPane(new NewGameDialog());
+        JFrame frame = new NewGameDialog(this);
     }
 
     /**
@@ -254,21 +264,30 @@ public class Window {
 
         public void mouseClicked(MouseEvent arg0) {
             System.out.println("Click! " + arg0.getX() + ", " + arg0.getY());
+            //Middle mouse click handler
+            if (arg0.getButton()==MouseEvent.BUTTON2){
+                scale = 1;
+            }
 
         }
 
         public void mousePressed(MouseEvent e) {
-            if (!application.isGameRunning()){
+            if (!application.isGameRunning()) {
                 invokeNewGameDialog();
                 return;
             }
 
+            if (e.getButton() == MouseEvent.BUTTON2) return;
+            
             if (!editing) {
                 Vect2D<Integer> gridCoords = getGridCoords(e.getX(), e.getY());
                 if (gridCoords != null) {
                     LOGGER.fine("Started pulling at: " + gridCoords.getX() + ", " + gridCoords.getY());
                     startMousePress = gridCoords;
                 }
+            } else {
+                //TODO: COMPLETE EDITING MOUSEHANDLER
+
             }
         }
 
@@ -307,6 +326,18 @@ public class Window {
 
         public void mouseExited(MouseEvent e) {
 
+        }
+
+
+
+
+    }
+
+    public static void main(String[] args) {
+        String s = "ahoj karle";
+        StringTokenizer st = new StringTokenizer(s, " ");
+        while (st.hasMoreTokens()){
+            System.out.println(st.nextToken());
         }
     }
 }
